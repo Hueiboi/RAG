@@ -95,6 +95,10 @@ def load_or_build(rebuild: bool = False) -> FAISS:
     # nếu không tồn tại thì build vectorstore mới
     else:
         documents = load_documents(settings.paper_dirs)
+        if not documents:
+            log.warning("Không có tài liệu nào — khởi động không có index")
+            return None
+        
         chunks = split_documents(documents)
         vectorstore = build_vectorstore(chunks)
         log.info("Built new vectorstore and saved to %s", settings.faiss_index) 

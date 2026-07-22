@@ -18,6 +18,9 @@ class ChatResponse(BaseModel):
 
 @router.post("/chat")
 async def chat(req: ChatRequest, chain = Depends(get_chain)):
+    if chain is None:
+        return {"answer": "Bạn chưa upload tài liệu nào. Vui lòng upload file trước khi đặt câu hỏi."}
+    
     question = req.question
     answer = chain.invoke(question)
     return {"answer": answer}
