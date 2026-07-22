@@ -4,7 +4,8 @@ import { User } from '@supabase/supabase-js'
 import { LogOut } from "lucide-react"
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client"
 import { useRouter } from "next/navigation"
-
+import { toast } from "sonner"
+  
 export default function UserBadge({ user }: { user: User | null }) {
     const supabase = getSupabaseBrowserClient()
     const router = useRouter()
@@ -13,7 +14,8 @@ export default function UserBadge({ user }: { user: User | null }) {
 
     async function handleSignOut() {
         await supabase.auth.signOut()
-        router.push("/auth/email-password")
+        toast.success("Signed out successfully.")
+        router.push("/auth")
     }
 
     return (

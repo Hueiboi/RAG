@@ -1,6 +1,5 @@
-import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createSupabaseServerClient } from "@/lib/supabase/server-client"
 import { NextResponse, type NextRequest } from 'next/server'
-import { getEnvironmentVariable } from '@/lib/supabase/server-client'
 
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next({
@@ -9,27 +8,12 @@ export async function proxy(request: NextRequest) {
     },
   })
 
-  const { supabaseUrl, supabaseAnonKey } = getEnvironmentVariable()
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-    cookies: {
-      get(name: string) {
-        return request.cookies.get(name)?.value
-      },
-      set(name: string, value: string, options: CookieOptions) {
-        request.cookies.set({ name, value, ...options })
-        response.cookies.set({ name, value, ...options })
-      },
-      remove(name: string, options: CookieOptions) {
-        request.cookies.set({ name, value: '', ...options })
-        response.cookies.set({ name, value: '', ...options })
-      },
-    },
-  })
+  const supabase = await createSupabaseServerClient()
 
   const { data: { user } } = await supabase.auth.getUser()
 
   if (request.nextUrl.pathname.startsWith('/chat') && !user) {
-    return NextResponse.redirect(new URL('/auth/email-password', request.url))
+    return NextResponse.redirect(new URL('/auth', request.url))
   }
 
   if (request.nextUrl.pathname.startsWith('/auth') && user) {

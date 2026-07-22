@@ -107,7 +107,7 @@ export default function Chat() {
             </p>
             <Button
               className="w-full h-12 text-base gap-2 bg-accent-primary hover:bg-accent-primary/80 text-white"
-              onClick={() => router.push("/auth/email-password")}
+              onClick={() => router.push("/auth")}
             >
               <LogIn className="w-5 h-5" />
               Đăng nhập
@@ -133,7 +133,7 @@ export default function Chat() {
               variant="outline"
               size="sm"
               className="gap-1.5 text-xs"
-              onClick={() => router.push("/auth/email-password")}
+              onClick={() => router.push("/auth")}
             >
               <LogIn className="w-3.5 h-3.5" />
               Đăng nhập
