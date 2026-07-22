@@ -1,0 +1,51 @@
+# ─── Python ───────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.Python
+env/
+venv/
+.env
+.venv/
+
+# ─── Jupyter / Notebooks ──────────────────────────────
+.ipynb_checkpoints/
+
+# ─── IDE / Editor ─────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ─── FAISS Index (có thể rebuild) ─────────────────────
+faiss_index/
+
+# ─── Documents / Raw data ─────────────────────────────
+papers/
+*.pdf
+*.docx
+
+# ─── Next.js (rag-ui) ─────────────────────────────────
+rag-ui/.next/
+rag-ui/out/
+rag-ui/node_modules/
+rag-ui/.env.local
+rag-ui/.env*.local
+rag-ui/next-env.d.ts
+
+# ─── Virtual environment ──────────────────────────────
+.venv/
+venv/
+env/
+
+# ─── Logs ─────────────────────────────────────────────
+logs/
+*.log

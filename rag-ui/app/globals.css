@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── Design System ────────────────────────────── */
+/* Dark-only palette — Linear/Vercel/Raycast tone  */
+
+@theme inline {
+  --font-sans: var(--font-inter), Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, monospace;
+
+  /* Shadcn / base-ui tokens */
+  --color-background: #0A0A0F;
+  --color-foreground: #F0F0FF;
+  --color-card: #111118;
+  --color-card-foreground: #F0F0FF;
+  --color-popover: #111118;
+  --color-popover-foreground: #F0F0FF;
+  --color-primary: #6366F1;
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: #1A1A24;
+  --color-secondary-foreground: #F0F0FF;
+  --color-muted: #1A1A24;
+  --color-muted-foreground: #8888AA;
+  --color-accent: #6366F1;
+  --color-accent-foreground: #FFFFFF;
+  --color-destructive: #EF4444;
+  --color-border: #2A2A38;
+  --color-input: #2A2A38;
+  --color-ring: #6366F1;
+  --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Sidebar (unused but kept for shadcn compat) */
+  --color-sidebar: #111118;
+  --color-sidebar-foreground: #F0F0FF;
+  --color-sidebar-primary: #6366F1;
+  --color-sidebar-primary-foreground: #FFFFFF;
+  --color-sidebar-accent: #1A1A24;
+  --color-sidebar-accent-foreground: #F0F0FF;
+  --color-sidebar-border: #2A2A38;
+  --color-sidebar-ring: #6366F1;
+
+  /* ── Custom design-system tokens ── */
+  --color-bg-base: #0A0A0F;
+  --color-bg-surface: #111118;
+  --color-bg-elevated: #1A1A24;
+  --color-bg-border: #2A2A38;
+  --color-accent-primary: #6366F1;
+  --color-accent-glow: #6366F140;
+  --color-text-primary: #F0F0FF;
+  --color-text-secondary: #8888AA;
+  --color-text-muted: #44445A;
+  --color-status-success: #22C55E;
+  --color-status-error: #EF4444;
+  --color-status-loading: #6366F1;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-bg-base text-text-primary font-sans antialiased;
+  }
+}
+
+/* ── Glow animation (design.md signature element) ── */
+@keyframes glowFade {
+  0%   { box-shadow: 0 0 20px var(--accent-glow); }
+  100% { box-shadow: none; }
+}
+
+.animate-glow-fade {
+  animation: glowFade 1.5s ease-out forwards;
+}
