@@ -38,7 +38,7 @@ export default function EmailPasswordDemo({ user }: EmailPasswordProps) {
         if (mode === "signup") {
             const { error } = await supabase.auth.signUp({ email, password, options:
                 {
-                    emailRedirectTo: `${process.env.BASE_URL}/chat`
+                    emailRedirectTo: `${process.env.NEXT_PUBLIC_API_URL}/chat`
                 }
              });
             if (error) {

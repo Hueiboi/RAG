@@ -19,6 +19,8 @@ class Settings(BaseSettings):
     
     top_k: int = 5  # số lượng kết quả trả về khi truy vấn vectorstore
     score_threshold: float = -0.1  # ngưỡng điểm tương đồng để lọc kết quả
+    
+    database_url: str
 
     # Cấu hình để sử dụng biến môi trường từ file .env
     model_config = {"env_file": ".env"}

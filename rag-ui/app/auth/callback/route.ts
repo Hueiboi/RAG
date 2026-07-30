@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
-import { createSupabaseServerClient } from '@/lib/supabase/server-client'; // Đường dẫn tới file khởi tạo Supabase Server Client của bạn
+import { createSupabaseServerClient } from '@/lib/supabase/server-client'; 
 
+// NOTE: This route is used as a callback for OAuth providers. 
+//  It exchanges the authorization code for a session and redirects the user accordingly.
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');

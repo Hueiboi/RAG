@@ -6,11 +6,11 @@ from src.ingestion import load_or_build
 import logging as log
 
 def create_rag_chain(rebuild=False): 
-    vectorstore = load_or_build(rebuild=rebuild) # Nhớ truyền rebuild để load_or_build để rebuild index khi upload file mới
+    vectorstore = load_or_build(rebuild=rebuild) # Để load_or_build để rebuild index khi upload file mới
     
     if vectorstore is None:
         log.warning("Không có tài liệu nào — không thể tạo chain")
-        return None  # Không có tài liệu nào, trả về None để chain không được tạo
+        return None  # Trả về None để chain không được tạo
     
     retriever = get_retriever(vectorstore)
     llm = get_llm()

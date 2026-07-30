@@ -91,17 +91,19 @@ Mặc định app chạy ở `http://localhost:3000`.
 
 | Vấn đề | Nguyên nhân | Cách xử lý |
 | --- | --- | --- |
-| Không vào được `/chat` | Chưa đăng nhập | Login qua `/auth/email-password` |
-| Supabase client lỗi | Thiếu env | Kiểm tra `.env.local` |
 | Đăng nhập xong vẫn bị redirect | Session chưa hydrate kịp | Kiểm tra `proxy.ts` và `onAuthStateChange` |
 | Chat không gọi được backend | Backend chưa chạy hoặc sai URL | Chạy FastAPI và kiểm tra `lib/api.ts` |
+| API chưa chặt chẽ | Thiếu Type/Interface | Thêm `ApiResponse<T> = Promise<{ data:T , error: string}>`
+| Google OAuth không sút sang /chat (bị reload lại /auth) | Thiếu Route Handler để đổi OAuth Code lấy Session Cookie | Tạo app/auth/callback/route.ts dùng exchangeCodeForSession và trỏ redirectTo về đó |
+| Google OAuth báo lỗi Redirect URL | Chưa đăng ký URL callback trên Supabase Dashboard | Thêm http://localhost:3000/auth/callback vào mục Redirect URLs trên Supabase |
+| Lấy data.answer bị lỗi Type / undefined | Backend FastAPI trả về { answer } khi thành công nhưng trả về { detail } khi có lỗi	| Kiểm tra if (!res.ok) để lấy result.detail cho error, ngược lại mới trả result cho data |
 
 ## File Quan Trọng
 
 | File | Vai trò |
 | --- | --- |
-| `app/chat/page.tsx` | UI chat chính |
-| `app/auth/email-password/EmailPassword.tsx` | Đăng nhập / đăng ký |
+| `app/chat` | UI chat chính |
+| `app/auth/` | Đăng nhập / đăng ký |
 | `lib/api.ts` | Client gọi backend |
 | `lib/supabase/browser-client.ts` | Supabase client cho browser |
 | `lib/supabase/server-client.ts` | Supabase client cho server |

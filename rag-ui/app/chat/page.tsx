@@ -61,24 +61,47 @@ export default function Chat() {
     setLoading(true);
 
     try {
+      // 1. Xử lý Upload file (nếu có)
       if (file) {
         toast.info("Đang xử lý tài liệu...");
-        await chatApi.uploadFile(file);
+        const { error: uploadError } = await chatApi.uploadFile(file);
+        
+        if (uploadError) {
+          toast.error(`Lỗi upload: ${uploadError}`);
+          setLoading(false);
+          return; 
+        }
+
         toast.success("Nạp tài liệu thành công!");
         setFile(null);
       }
 
-      const data = await chatApi.sendMessage(message);
+      // 2. Gửi tin nhắn Chat
+      const { data, error } = await chatApi.sendMessage(message);
+
+      if (error || !data) {
+        toast.error(error || "Không nhận được phản hồi từ AI.");
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: crypto.randomUUID(),
+            role: "assistant",
+            content: "Rất tiếc, đã có lỗi xảy ra khi xử lý câu hỏi của bạn.",
+          },
+        ]);
+        return;
+      }
 
       setMessages((prev) => [
         ...prev,
         {
           id: crypto.randomUUID(),
           role: "assistant",
-          content: data.answer,
+          content: data.answer, 
         },
       ]);
     } catch (error) {
+      // Catch này chỉ để phòng ngừa các lỗi bất ngờ ở Frontend (như crypto.randomUUID lỗi...)
       console.error("Lỗi hệ thống RAG:", error);
       toast.error("Có lỗi xảy ra, vui lòng thử lại.");
     } finally {

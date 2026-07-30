@@ -2,7 +2,7 @@ import logging as log
 from pathlib import Path
 from langchain_community.document_loaders import DirectoryLoader, Docx2txtLoader, TextLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS
+from langchain_postgres.vectorstores import PGVector
 from langchain_community.vectorstores.utils import DistanceStrategy
 from langchain_huggingface import HuggingFaceEmbeddings
 from src.config import settings
@@ -48,7 +48,7 @@ def split_documents(documents: list[Document]) -> list[Document]:
     return chunks
 
 # caching embedding model tránh việc load lại nhiều lần, chỉ load 1 lần và cache lại
-# tốt hơn global variable, vì global variable sẽ load lại mỗi lần gọi hàm, còn lru_cache sẽ cache lại giá trị trả về của hàm
+# tốt hơn global variable tránh load lại mỗi lần gọi hàm
 @lru_cache(maxsize=1) 
 def get_embeddings() -> HuggingFaceEmbeddings:
     return HuggingFaceEmbeddings (
@@ -57,50 +57,83 @@ def get_embeddings() -> HuggingFaceEmbeddings:
         encode_kwargs={"normalize_embeddings": True}
     )    
     
-def build_vectorstore(chunks: list[Document]) -> FAISS:
-    try: 
-        embedding_model = get_embeddings()
-        faiss_path = Path(settings.faiss_index)
-        faiss_path.mkdir(parents=True, exist_ok=True)  # tự động tạo thư mục nếu chưa tồn tại
+# def build_vectorstore(chunks: list[Document]) -> FAISS:
+#     try: 
+#         embedding_model = get_embeddings()
+#         faiss_path = Path(settings.faiss_index)
+#         faiss_path.mkdir(parents=True, exist_ok=True)  # tự động tạo thư mục nếu chưa tồn tại
         
-        vectorstore = FAISS.from_documents(
-            documents=chunks,
-            embedding=embedding_model,
-            distance_strategy=DistanceStrategy.COSINE
-        )
+#         vectorstore = FAISS.from_documents(
+#             documents=chunks,
+#             embedding=embedding_model,
+#             distance_strategy=DistanceStrategy.COSINE
+#         )
     
-        vectorstore.save_local(folder_path=str(faiss_path))
+#         vectorstore.save_local(folder_path=str(faiss_path))
         
-        log.info("Vectorstore built and saved to %s", faiss_path)
+#         log.info("Vectorstore built and saved to %s", faiss_path)
         
-        return vectorstore
+#         return vectorstore
     
-    except Exception as e:
-        log.error("Error building vectorstore: %s", e)
-        raise e
-    
-def load_or_build(rebuild: bool = False) -> FAISS:
-    # kiểm tra xem có tồn tại thư mục faiss_index hay không
-    # nếu tồn tại thì load vectorstore từ thư mục đó
-    faiss_file = Path(settings.faiss_index) / "index.faiss"
+#     except Exception as e:
+#         log.error("Error building vectorstore: %s", e)
+#         raise e
 
-    if not rebuild and faiss_file.exists(): 
-        vectorstore = FAISS.load_local(
-            folder_path=str(Path(settings.faiss_index)), 
-            embeddings=get_embeddings(),
-            distance_strategy=DistanceStrategy.COSINE,
-            allow_dangerous_deserialization=True
+def connect_to_pgvector() -> PGVector:
+    try:
+        embedding_model = get_embeddings()
+        vectorstore = PGVector(
+            embeddings=embedding_model,      
+            collection_name="documents",  # tên collection trong PGVector
+            connection=settings.database_url,
+            use_jsonb=True
         )
-        log.info("Loaded existing vectorstore from %s", settings.faiss_index)
-    # nếu không tồn tại thì build vectorstore mới
-    else:
+        
+        log.info("Connected to PGVector database")
+    except Exception as e:
+        log.error("Error connecting to PGVector: %s", e)
+        raise e
+        
+    return vectorstore 
+    
+# def load_or_build(rebuild: bool = False) -> FAISS:
+#     # kiểm tra xem có tồn tại thư mục faiss_index hay không
+#     # nếu tồn tại thì load vectorstore từ thư mục đó
+#     faiss_file = Path(settings.faiss_index) / "index.faiss"
+
+#     if not rebuild and faiss_file.exists(): 
+#         vectorstore = FAISS.load_local(
+#             folder_path=str(Path(settings.faiss_index)), 
+#             embeddings=get_embeddings(),
+#             distance_strategy=DistanceStrategy.COSINE,
+#             allow_dangerous_deserialization=True
+#         )
+#         log.info("Loaded existing vectorstore from %s", settings.faiss_index)
+#     # nếu không tồn tại thì build vectorstore mới
+#     else:
+#         documents = load_documents(settings.paper_dirs)
+#         if not documents:
+#             log.warning("Không có tài liệu nào — khởi động không có index")
+#             return None
+        
+#         chunks = split_documents(documents)
+#         vectorstore = build_vectorstore(chunks)
+#         log.info("Built new vectorstore and saved to %s", settings.faiss_index) 
+    
+#     return vectorstore
+
+# TODO: Đọc README mới nhất phần 3) Multi-Tenant để triển khai multi-tenant
+def load_or_build(rebuild: bool = False) -> PGVector:
+    # Kết nối đến cơ sở dữ liệu PostgreSQL qua supabase
+    vectorstore = connect_to_pgvector()
+    
+    if rebuild: 
+        vectorstore.delete_collection() # xoá collection nếu rebuild: tạo lại từ đầu
         documents = load_documents(settings.paper_dirs)
         if not documents:
             log.warning("Không có tài liệu nào — khởi động không có index")
             return None
-        
         chunks = split_documents(documents)
-        vectorstore = build_vectorstore(chunks)
-        log.info("Built new vectorstore and saved to %s", settings.faiss_index) 
-    
+        vectorstore.add_documents(chunks) # thêm chunks vào collection: tạo index mới
+        
     return vectorstore
