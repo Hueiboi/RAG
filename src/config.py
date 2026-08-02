@@ -18,9 +18,12 @@ class Settings(BaseSettings):
     faiss_index: str = "faiss_index/"
     
     top_k: int = 5  # số lượng kết quả trả về khi truy vấn vectorstore
-    score_threshold: float = -0.1  # ngưỡng điểm tương đồng để lọc kết quả
+    score_threshold: float = 0.5  # ngưỡng điểm tương đồng để lọc kết quả
     
     database_url: str
+    
+    supabase_url: str
+    supabase_anon_key: str
 
     # Cấu hình để sử dụng biến môi trường từ file .env
     model_config = {"env_file": ".env"}

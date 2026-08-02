@@ -2,17 +2,21 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from src.retriever import get_retriever
 from src.llm_service import get_llm, get_prompt
-from src.ingestion import load_or_build
+from src.ingestion import load_or_build, connect_to_pgvector
+from functools import lru_cache
 import logging as log
 
-def create_rag_chain(rebuild=False): 
-    vectorstore = load_or_build(rebuild=rebuild) # Để load_or_build để rebuild index khi upload file mới
+# Cache the RAG chain -> avoid rebuilding it multiple times
+# TODO: Consider Redis or other caching mechanisms for production use
+@lru_cache(maxsize=100)  
+def get_or_create_rag_chain(user_id: str): 
+    vectorstore = connect_to_pgvector()
     
     if vectorstore is None:
         log.warning("Không có tài liệu nào — không thể tạo chain")
         return None  # Trả về None để chain không được tạo
     
-    retriever = get_retriever(vectorstore)
+    retriever = get_retriever(vectorstore, user_id)
     llm = get_llm()
     prompt = get_prompt()
     

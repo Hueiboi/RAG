@@ -1,13 +1,31 @@
 import { ApiResponse, ChatResponse, UploadResponse } from '@/lib/types'
+import { createBrowserClient } from '@supabase/ssr'
+
+const supabase = createBrowserClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
+const base_url = process.env.NEXT_PUBLIC_FAST_API_URL;
+
+// getAuthHeader là một hàm bất đồng bộ (async function) => trả về Promise. 
+// Sau cùng nó sẽ trả về một đối tượng K/V: Record<string, string>.
+async function getAuthHeader(): Promise<Record<string, string>> {
+  const { data: { session } } = await supabase.auth.getSession();
+  return session ? { Authorization: `Bearer ${session.access_token}` } : {};
+}
 
 // NOTE: This API wrapper is used to send requests to the FastAPI backend.
 // It handles errors and returns a consistent response format.
 export const chatApi = {
   sendMessage: async (question: string): ApiResponse<ChatResponse> => {
+    const authHeader = await getAuthHeader();
     try {
-      const res = await fetch(`${process.env.FAST_API_URL}/chat`, {
+      const res = await fetch(`${base_url}/chat`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json", 
+          ...authHeader },
         body: JSON.stringify({ question })
       });
 
@@ -25,11 +43,13 @@ export const chatApi = {
 
   uploadFile: async (file: File): ApiResponse<UploadResponse> => {
     try {
+      const authHeader = await getAuthHeader();
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch(`${process.env.FAST_API_URL}/upload`, {
+      const res = await fetch(`${base_url}/upload`, {
         method: "POST",
+        headers: { ...authHeader },
         body: formData
       });
 

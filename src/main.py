@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from src.pipeline import create_rag_chain
 import src.dependencies as deps
 from src.api.routes.chat import router 
 import logging
@@ -11,11 +10,10 @@ logging.basicConfig(
     format="%(asctime)s | %(message)s"
 )
 
-# Lifespan và asynccontextmanager để khởi tạo rag_chain khi ứng dụng FastAPI khởi động và dọn dẹp khi ứng dụng tắt
-@asynccontextmanager
+# Lifespan và asynccontextmanager to manage startup and shutdown events
 async def lifespan(app: FastAPI):
     try:
-        deps.rag_chain = create_rag_chain(rebuild=False)
+        logging.info("RAG ready to serve")
         yield
     finally:
         pass  # Cleanup code if needed

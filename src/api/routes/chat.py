@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends , File, HTTPException, UploadFile
 from pydantic import BaseModel
-from src.dependencies import get_chain
 from src.config import settings
-from src.pipeline import create_rag_chain
+from src.ingestion import load_or_build
+from src.pipeline import get_or_create_rag_chain
 from pathlib import Path
 import src.dependencies as deps
 import shutil
@@ -17,7 +17,9 @@ class ChatResponse(BaseModel):
     answer: str
 
 @router.post("/chat")
-async def chat(req: ChatRequest, chain = Depends(get_chain)):
+async def chat(req: ChatRequest, current_user = Depends(deps.get_current_user)):
+    chain = get_or_create_rag_chain(user_id=current_user.id)
+
     if chain is None:
         return {"answer": "Bạn chưa upload tài liệu nào. Vui lòng upload file trước khi đặt câu hỏi."}
     
@@ -26,7 +28,7 @@ async def chat(req: ChatRequest, chain = Depends(get_chain)):
     return {"answer": answer}
 
 @router.post("/upload")
-async def upload(file: UploadFile = File(...)):
+async def upload(file: UploadFile = File(...), current_user = Depends(deps.get_current_user)):
     allowed = {".txt", ".pdf", ".docx"}
     ext = Path(file.filename).suffix.lower()
     if ext not in allowed:
@@ -37,7 +39,10 @@ async def upload(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, f) 
         
     log.info("File saved to %s, rebuilding index...", save_path)
-    deps.rag_chain = create_rag_chain(rebuild=True)
+    
+    load_or_build(user_id=current_user.id, files_to_rebuild=[file.filename])
+    get_or_create_rag_chain.cache_clear()  # Clear the cache to force rebuilding the chain
+    
     log.info("Index rebuilt, new chain: %s", deps.rag_chain)
         
     return {"message": f"File {file.filename} uploaded successfully."}

@@ -19,7 +19,7 @@ def main():
     log.info("Loading or building FAISS index...")
     
     try:
-        rag_chain = create_rag_chain(rebuild=args.rebuild_index)
+        rag_chain = create_rag_chain()
     except Exception as e:
         log.error("Failed to create RAG chain: %s", e)
         raise SystemExit("Exiting due to failure in creating RAG chain.")

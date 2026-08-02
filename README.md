@@ -102,13 +102,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 - Backend docs: `http://localhost:8000/docs`
 - Frontend: `http://localhost:3000`
 
-## Ghi Chú Nhanh
-
-- Backend hiện có endpoint `/api/chat` và `/api/upload`.
-- Frontend đang gọi backend qua `http://localhost:8000/api` trong `rag-ui/lib/api.ts`.
-- Nếu chưa upload tài liệu, backend sẽ trả về fallback thay vì làm chain bị lỗi.
-
 ## Tài Liệu Chi Tiết
 
 - [Backend README](src/README.md)
 - [Frontend README](rag-ui/README.md)
+

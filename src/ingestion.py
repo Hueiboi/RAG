@@ -8,6 +8,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from src.config import settings
 from functools import lru_cache
 from langchain_core.documents import Document   
+from sqlalchemy import text
 
 
 def load_documents(paper_dirs: str) -> list[Document]: # -> là return type annotation, chỉ định kiểu dữ liệu của giá trị trả về
@@ -90,6 +91,7 @@ def connect_to_pgvector() -> PGVector:
         )
         
         log.info("Connected to PGVector database")
+        
     except Exception as e:
         log.error("Error connecting to PGVector: %s", e)
         raise e
@@ -122,18 +124,54 @@ def connect_to_pgvector() -> PGVector:
     
 #     return vectorstore
 
-# TODO: Đọc README mới nhất phần 3) Multi-Tenant để triển khai multi-tenant
-def load_or_build(rebuild: bool = False) -> PGVector:
+# Hàm được cải tiến để load hoặc build vectorstore cho một user_id cụ thể 
+def load_or_build(user_id: str = None, files_to_rebuild: list[str] = None) -> PGVector:
     # Kết nối đến cơ sở dữ liệu PostgreSQL qua supabase
     vectorstore = connect_to_pgvector()
     
-    if rebuild: 
-        vectorstore.delete_collection() # xoá collection nếu rebuild: tạo lại từ đầu
+    if user_id and files_to_rebuild:
         documents = load_documents(settings.paper_dirs)
         if not documents:
             log.warning("Không có tài liệu nào — khởi động không có index")
             return None
-        chunks = split_documents(documents)
-        vectorstore.add_documents(chunks) # thêm chunks vào collection: tạo index mới
         
+    chunks = split_documents(documents)
+    
+    for chunk in chunks: 
+        chunk.metadata["user_id"] = user_id  # gắn user_id vào metadata của chunk
+        chunk.metadata["file_name"] = files_to_rebuild[0]
+    
+    delete_user_file_vectors(vectorstore, user_id, files_to_rebuild[0])
+    
+    vectorstore.add_documents(chunks)
+    log.info("Added %d chunks for user %s and file %s to vectorstore", len(chunks), user_id, files_to_rebuild[0])
+    
     return vectorstore
+
+# Hàm xóa các vector của một user_id và file_name cụ thể trong PGVector
+def delete_user_file_vectors(vectorstore, user_id: str, file_name: str):
+    """
+    Xóa các vector thuộc về user_id và file_name cụ thể.
+    Không xóa toàn bộ collection, chỉ xóa dữ liệu của riêng user đó.
+    """
+    with vectorstore._engine.connect() as conn:
+        statement = text("""
+            DELETE FROM langchain_pg_embedding
+            WHERE collection_id = (
+                SELECT uuid
+                FROM langchain_pg_collection
+                WHERE name = :coll_name
+            )
+            AND cmetadata->>'user_id' = :uid
+            AND cmetadata->>'file_name' = :fname
+        """)
+
+        conn.execute(
+            statement,
+            {
+                "coll_name": "documents",
+                "uid": user_id,
+                "fname": file_name,
+            }
+        )
+        conn.commit()
