@@ -3,9 +3,9 @@
 ![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi&logoColor=white)
 ![LangChain](https://img.shields.io/badge/LangChain-RAG-1C3C3C)
-![FAISS](https://img.shields.io/badge/FAISS-Vector%20Search-005571)
+![Supabase](https://img.shields.io/badge/Supabase-Storage%20%26%20PGVector-3ECF8E)
 
-> Backend xử lý ingest tài liệu, build vector store, truy hồi ngữ cảnh và sinh câu trả lời cho chatbot.
+> Backend xử lý ingest tài liệu từ Supabase Storage, build vector store trên PostgreSQL + pgvector, truy hồi ngữ cảnh và sinh câu trả lời cho chatbot.
 
 ## Tổng Quan Backend & RAG Pipeline
 
@@ -14,8 +14,8 @@ Backend hiện được tổ chức theo pipeline khá rõ:
 | Bước | File | Mô tả |
 | --- | --- | --- |
 | Config | `src/config.py` | Đọc biến môi trường và cấu hình chung |
-| Ingestion | `src/ingestion.py` | Load tài liệu, split chunk, embed, build/load FAISS |
-| Retriever | `src/retriever.py` | Tạo retriever từ vector store |
+| Ingestion | `src/ingestion.py` | Download file từ Supabase Storage, load, split chunk, embed, ghi vào PGVector |
+| Retriever | `src/retriever.py` | Tạo retriever từ vector store, lọc theo `user_id` |
 | LLM | `src/llm_service.py` | Khởi tạo Groq LLM và prompt template |
 | Chain | `src/pipeline.py` | Ghép retriever + prompt + LLM + parser |
 | API | `src/api/routes/chat.py` | `/api/chat` và `/api/upload` |
@@ -25,11 +25,13 @@ Backend hiện được tổ chức theo pipeline khá rõ:
 
 ```mermaid
 flowchart LR
-    DOC[Documents in papers/] --> LOAD[load_documents]
-    LOAD --> SPLIT[split_documents]
+    U[User] -->|upload file| SB[(Supabase Storage)]
+    SB --> DL[load_documents\nuser_id + file_name]
+    DL --> SPLIT[split_documents]
     SPLIT --> EMBED[HuggingFaceEmbeddings]
-    EMBED --> FAISS[FAISS index] 
+    EMBED --> PG[(PostgreSQL + pgvector\nfilter user_id)]
     Q[User question] --> RET[Retriever]
+    PG --> RET
     RET --> CTX[Context]
     CTX --> PROMPT[Prompt Template]
     Q --> PROMPT
@@ -48,10 +50,11 @@ EMBEDDING_MODEL=BAAI/bge-m3
 EMBEDDING_DEVICE=cpu
 CHUNK_SIZE=1200
 CHUNK_OVERLAP=200
-PAPER_DIRS=papers/
-FAISS_INDEX=faiss_index/ (Demo)
 TOP_K=5
-SCORE_THRESHOLD=-0.1
+SCORE_THRESHOLD=0.5
+DATABASE_URL=postgresql://... # Supabase Postgres (pgvector)
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your_anon_key
 ```
 
 ### `venv` và chạy server
@@ -78,25 +81,26 @@ uvicorn src.main:app --reload
 ### `/api/upload`
 
 - Chỉ nhận `.txt`, `.pdf`, `.docx`.
-- File được lưu vào `papers/`.
-- Sau khi upload, backend gọi `create_rag_chain(rebuild=True)` để build lại FAISS và refresh chain.
+- File được upload lên Supabase Storage bucket `documents` tại path `{user_id}/{file_name}` (upsert / ghi đè file trùng tên).
+- Sau khi upload lưu cloud, backend gọi `load_or_build(user_id, [file_name])`: download file từ Storage, split chunk, gắn metadata `user_id` + `file_name`, xoá vector cũ của file đó rồi thêm vào PGVector.
+- `load_documents(user_id, file_name)` ghi file ra temp (dùng `tempfile`) rồi load để tương thích `PyPDFLoader`/`Docx2txtLoader`/`TextLoader`; file tạm được dọn trong `finally` → stateless, không phụ thuộc máy.
 
 ## Dòng Chạy Quan Trọng
 
 ```python
-deps.rag_chain = create_rag_chain(rebuild=False)
+load_or_build(user_id=current_user.id, files_to_rebuild=[file.filename])
+get_or_create_rag_chain.cache_clear()
 ```
 
-- `lifespan` trong `src/main.py` khởi tạo chain lúc server start.
-- `src/pipeline.py` sẽ trả `None` nếu không có tài liệu, để server vẫn lên nhưng chat có fallback an toàn.
+- Chain được build/cache theo `user_id` trong `src/pipeline.py`; sau khi upload file, `cache_clear()` buộc chain rebuild để dữ liệu mới xuất hiện ngay.
 
 ## Nhật Ký Phát Triển & Lỗi Đã Gặp
 
 ### 1) User chưa upload document
 
-**Triệu chứng:** gọi `/api/chat` nhưng chưa có file nào trong `papers/` thì chain không thể tạo.
+**Triệu chứng:** gọi `/api/chat` nhưng user chưa upload file nào thì chain không thể tạo.
 
-**Fix:** `load_or_build()` trả `None` khi không có document, và `create_rag_chain()` cũng trả `None` tương ứng. Ở route chat, nếu `chain is None` thì trả message hướng dẫn user upload file trước.
+**Fix:** `load_or_build()` trả `None` khi không có document, và `get_or_create_rag_chain()` cũng trả `None` tương ứng. Ở route chat, nếu `chain is None` thì trả message hướng dẫn user upload file trước.
 
 **Bài học:** RAG backend nên fail mềm. Không có tài liệu thì UI vẫn sống, chỉ cần trả fallback rõ ràng cho user.
 
@@ -175,45 +179,59 @@ def delete_user_file_vectors(vectorstore, user_id: str, file_name: str):
         conn.commit()
 ```
 
+![Supabase Storage diagram]
+#### Thiết lập Supabase Storage (bucket + RLS)
+
+Upload qua `SUPABASE_ANON_KEY` chỉ hoạt động khi bucket có RLS policy cho Authenticated user:
+
+- Tạo bucket `documents` (private) trong Supabase → Storage.
+- Trong SQL Editor, thêm policy trên `storage.objects`:
+
+```sql
+-- Cho phép user upload file vào thư mục riêng của mình
+create policy "own_insert" on storage.objects
+  for insert with check (
+    bucket_id = 'documents'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+-- Cho phép user đọc file của chính mình
+create policy "own_select" on storage.objects
+  for select using (
+    bucket_id = 'documents'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+```
+
 #### Luồng API Upload hoàn chỉnh
 
 ```python
-@app.post("/upload")
-async def upload_file(
-    file: UploadFile,
-    current_user: User = Depends(get_current_user)
-):
-    # 1. Khởi tạo vectorstore
-    # Kết nối đến collection CHUNG "documents"
-    vectorstore = connect_to_pgvector()
+@router.post("/upload")
+async def upload(file: UploadFile = File(...), current_user = Depends(deps.get_current_user)):
+    # 1. Validate định dạng
+    if Path(file.filename).suffix.lower() not in {".txt", ".pdf", ".docx"}:
+        raise HTTPException(status_code=400, detail="Invalid file type")
 
-    # 2. Xử lý file & chia chunks
-    docs = load_documents(file)
-    chunks = split_documents(docs)
+    file_content = await file.read()
 
-    # 3. Gán metadata bắt buộc để phân quyền
-    for chunk in chunks:
-        chunk.metadata["user_id"] = current_user.id
-        chunk.metadata["file_name"] = file.filename
-
-    # 4. Xóa dữ liệu cũ của file này
-    # Nếu user upload lại file trùng tên,
-    # bước này ngăn việc trùng lặp nội dung
-    delete_user_file_vectors(
-        vectorstore,
-        current_user.id,
-        file.filename
+    # 2. Lưu file lên Supabase Storage (upsert ghi đè file trùng tên)
+    deps.supabase.storage.from_("documents").upload(
+        path=f"{current_user.id}/{file.filename}",
+        file=file_content,
+        file_options={"upsert": True},
     )
 
-    # 5. Thêm dữ liệu mới vào collection chung
-    # Lưu ý: Không gọi delete_collection() ở đây nữa!
-    vectorstore.add_documents(chunks)
+    # 3. Ingest từ cloud: download -> split -> embed -> thêm vào PGVector
+    load_or_build(user_id=current_user.id, files_to_rebuild=[file.filename])
+    get_or_create_rag_chain.cache_clear()
 
-    return {
-        "status": "indexed",
-        "file": file.filename
-    }
+    return {"message": f"File {file.filename} uploaded successfully."}
 ```
+
+Trong đó `load_documents(user_id, file_name)` (tại `src/ingestion.py`):
+
+- Download bytes từ Storage, ghi ra temp file (`tempfile.NamedTemporaryFile`).
+- Chọn loader theo đuôi file và đọc; file tạm được `os.unlink` trong `finally` → **stateless**, máy backend không còn giữ cache file.
 
 #### Luồng API Chat (Query có lọc)
 
@@ -256,10 +274,11 @@ async def chat(
 
 | Vấn đề | Nguyên nhân | Cách xử lý |
 | --- | --- | --- |
-| Server không start | Thiếu `GROQ_API_KEY` | Kiểm tra `.env` ở root |
-| Không tìm thấy tài liệu | Thư mục `papers/` trống | Upload file hoặc thêm tài liệu mới |
+| Server không start | Thiếu `GROQ_API_KEY` hoặc `DATABASE_URL` | Kiểm tra `.env` ở root |
+| Upload bị lỗi 400 | File không đúng `.txt`/`.pdf`/`.docx` | Upload đúng định dạng |
+| Upload không lưu lên Storage | Bucket `documents` chưa có RLS policy | Thêm policy cho Authenticated user (xem bên dưới) |
 | Chat trả lời yếu | Context không đủ liên quan | Tuning `TOP_K` và `SCORE_THRESHOLD` |
-| Index cũ không cập nhật | Chưa rebuild | Dùng upload API hoặc chạy lại với `rebuild=True` |
+| Dữ liệu cũ không cập nhật | Chain đang cache | Gọi `/api/upload` lại để `cache_clear()` |
 
 ## Quick Commands
 

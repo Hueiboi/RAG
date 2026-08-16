@@ -12,7 +12,7 @@
 - [x] `chatbot.py` — CLI entry point với argparse (`--rebuild-index`)
 ### **FastAPI**
 - [x] `POST /chat` — nhận câu hỏi, trả lời từ RAG chain
-- [x] `POST /upload` — nhận file, lưu vào papers/, trigger ingest
+- [x] `POST /upload` — nhận file, lưu lên Supabase Storage, trigger ingest
 - [x] CORS middleware cho phép Next.js gọi API
 - [x] `lifespan` hook khởi tạo chain 1 lần khi app start
 - [x] `dependencies.py` — shared state pattern, tránh circular import
@@ -45,5 +45,5 @@
     - Đã bổ sung user_id cho get_retriever để tạo đúng retriever cho user đó
     - Không khởi tạo chain xuyên suốt lifespan -> khởi tạo chain theo từng request (tạm thời cho MVP)
     - Lưu ý sau này nâng cấp redis caching để hướng tới production...
-- [ ] Supabase Storage thay papers/ local
+- [x] Supabase Storage thay papers/ local
 - [ ] Chat history lưu DB

@@ -10,7 +10,8 @@ logging.basicConfig(
     format="%(asctime)s | %(message)s"
 )
 
-# Lifespan và asynccontextmanager to manage startup and shutdown events
+# Lifespan và asynccontextmanager quản lý vòng đời của ứng dụng FastAPI
+# cho phép thực hiện các tác vụ khởi tạo và dọn dẹp khi ứng dụng bắt đầu và kết thúc.
 async def lifespan(app: FastAPI):
     try:
         logging.info("RAG ready to serve")

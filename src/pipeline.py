@@ -6,7 +6,7 @@ from src.ingestion import load_or_build, connect_to_pgvector
 from functools import lru_cache
 import logging as log
 
-# Cache the RAG chain -> avoid rebuilding it multiple times
+# Cache the RAG chain -> tránh việc tạo lại chain nhiều lần cho cùng một user_id, chỉ tạo 1 lần và cache lại
 # TODO: Consider Redis or other caching mechanisms for production use
 @lru_cache(maxsize=100)  
 def get_or_create_rag_chain(user_id: str): 

@@ -13,10 +13,6 @@ class Settings(BaseSettings):
     chunk_size: int = 1200
     chunk_overlap: int = 200
     
-    # Paths
-    paper_dirs: str = "papers/"
-    faiss_index: str = "faiss_index/"
-    
     top_k: int = 5  # số lượng kết quả trả về khi truy vấn vectorstore
     score_threshold: float = 0.5  # ngưỡng điểm tương đồng để lọc kết quả
     

@@ -12,9 +12,9 @@ export function getEnvironmentVariable(): { supabaseUrl: string; supabaseAnonKey
     return { supabaseUrl, supabaseAnonKey };
 }
 
-// NOTE: This function is used to create a Supabase client for the server.
-// It uses the environment variables NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to initialize the client. 
-// It also uses the cookies from the request to maintain the session.
+// NOTE: Hàm createSupabaseServerClient được sử dụng để tạo một client Supabase trên server-side
+// Sử dụng cookie từ request hiện tại để quản lý phiên người dùng.
+// Nó trả về một client Supabase được cấu hình với URL và khóa ẩn từ biến môi trường.
 export async function createSupabaseServerClient() {
     const { supabaseUrl, supabaseAnonKey } = getEnvironmentVariable();
     const cookieStore = await cookies();

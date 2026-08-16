@@ -15,8 +15,8 @@ async function getAuthHeader(): Promise<Record<string, string>> {
   return session ? { Authorization: `Bearer ${session.access_token}` } : {};
 }
 
-// NOTE: This API wrapper is used to send requests to the FastAPI backend.
-// It handles errors and returns a consistent response format.
+// NOTE: API wrapper này cung cấp các phương thức để gửi tin nhắn và tải lên tệp tin đến server.
+// Giúp việc giao tiếp với server trở nên dễ dàng hơn và quản lý lỗi một cách hiệu quả.
 export const chatApi = {
   sendMessage: async (question: string): ApiResponse<ChatResponse> => {
     const authHeader = await getAuthHeader();

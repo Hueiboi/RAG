@@ -5,7 +5,7 @@
 ![Next.js](https://img.shields.io/badge/Next.js-Frontend-000000?logo=nextdotjs&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-Auth%20%26%20DB-3ECF8E?logo=supabase&logoColor=white)
 
-> Hệ thống RAG cá nhân hóa gồm backend FastAPI + LangChain + FAISS và frontend Next.js + Supabase Auth.
+> Hệ thống RAG cá nhân hóa gồm backend FastAPI + LangChain và frontend Next.js + Supabase (Auth, Storage, PostgreSQL + pgvector).
 
 ## Tổng Quan
 
@@ -22,8 +22,10 @@ Project này xây một chatbot hỏi đáp theo tài liệu nội bộ. Ngườ
 | Layer | Công nghệ | Vai trò |
 | --- | --- | --- |
 | Frontend | Next.js 16, React 19, Tailwind CSS 4 | UI, auth flow, chat screen |
-| Backend | FastAPI, LangChain, FAISS | API, RAG pipeline, retrieval |
+| Backend | FastAPI, LangChain | API, RAG pipeline, retrieval |
 | Auth | Supabase Auth | Email/password, Google OAuth |
+| Storage | Supabase Storage | Lưu file tài liệu của user trên cloud, không phụ thuộc máy local |
+| Vector DB | Supabase PostgreSQL + pgvector | Lưu chunks/embeddings theo `user_id`, hỗ trợ multi-tenancy |
 | LLM | Groq | Sinh câu trả lời cuối |
 | Embedding | BAAI/bge-m3 | Chuyển văn bản thành vector |
 
@@ -34,7 +36,7 @@ flowchart LR
     U[User] --> FE[Next.js UI]
     FE -->|/chat, /auth| SB[Supabase Auth]
     FE -->|POST /api/chat, /api/upload| BE[FastAPI Backend]
-    BE --> VS[FAISS Vector Store]
+    BE --> VS[(Supabase Storage +\nPostgreSQL + pgvector)]
     BE --> LLM[Groq LLM]
     BE --> FE
 ```
@@ -44,8 +46,8 @@ flowchart LR
 1. User đăng nhập ở frontend qua Supabase.
 2. `proxy.ts` chặn route `/chat` nếu chưa có session.
 3. Frontend gửi câu hỏi hoặc file upload sang backend FastAPI.
-4. Backend đọc tài liệu, chia chunk, embed và lưu vào FAISS.
-5. Khi hỏi đáp, backend truy hồi context liên quan rồi gọi Groq để sinh câu trả lời.
+4. Backend lưu file lên Supabase Storage, đọc tài liệu, chia chunk, embed và lưu vào PostgreSQL + pgvector theo `user_id`.
+5. Khi hỏi đáp, backend truy hồi context liên quan (lọc theo `user_id`) rồi gọi Groq để sinh câu trả lời.
 
 ## Cấu Trúc Repo
 

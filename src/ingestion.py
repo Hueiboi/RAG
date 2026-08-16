@@ -1,4 +1,6 @@
 import logging as log
+import tempfile as tmp
+import os
 from pathlib import Path
 from langchain_community.document_loaders import DirectoryLoader, Docx2txtLoader, TextLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -9,33 +11,29 @@ from src.config import settings
 from functools import lru_cache
 from langchain_core.documents import Document   
 from sqlalchemy import text
+from src.dependencies import supabase
 
-
-def load_documents(paper_dirs: str) -> list[Document]: # -> là return type annotation, chỉ định kiểu dữ liệu của giá trị trả về
-    if not Path(paper_dirs).exists():
-        raise FileNotFoundError(f"Directory {paper_dirs} does not exist.")
-        
-    log.info("Loading documents from %s", paper_dirs)
-    try: 
-        docs = []
-
-        loaders = [
-            DirectoryLoader(paper_dirs, glob="**/*.docx", loader_cls=Docx2txtLoader),
-            DirectoryLoader(paper_dirs, glob="**/*.txt", loader_cls=TextLoader),
-            DirectoryLoader(paper_dirs, glob="**/*.pdf", loader_cls=PyPDFLoader),
-        ]
-
-        for loader in loaders: 
-            docs.extend(loader.load())
-        
-        log.info("Loaded %d documents from %s", len(docs), paper_dirs)
-            
-        return docs
-        
+# Cải tiến hàm load_documents để chỉ load các file của user_id cụ thể từ supabase storage
+# Loader chỉ nạp từ đường dẫn file thay vì bytes -> download từ supabase rồi ghi ra file tạm để có đường dẫn file
+def load_documents(user_id: str, file_name: str) -> list[Document]:
+    data = supabase.storage.from_("documents").download(f"{user_id}/{file_name}")
+    suffix = Path(file_name).suffix.lower()
+    temp = tmp.NamedTemporaryFile(suffix=suffix, delete=False)
+    temp.write(data); temp.close()
+    try:
+        loader = {
+            ".pdf": PyPDFLoader, 
+            ".docx": Docx2txtLoader, 
+            ".txt": TextLoader
+            }[suffix]
+        return loader(temp.name).load()
     except Exception as e:
-        log.error("Error loading documents: %s", e)
-        raise e
-
+        log.error("Error loading document %s for user %s: %s", file_name, user_id, e)
+        raise 
+    finally:
+        os.unlink(temp.name)  # Xóa file tạm sau khi sử dụng
+        
+        
 def split_documents(documents: list[Document]) -> list[Document]:
     text_splitter = RecursiveCharacterTextSplitter(  # ghi rõ keyword arguments thay vì positional arguments
         chunk_size=settings.chunk_size,
@@ -57,28 +55,6 @@ def get_embeddings() -> HuggingFaceEmbeddings:
         model_kwargs={"device": settings.embedding_device},
         encode_kwargs={"normalize_embeddings": True}
     )    
-    
-# def build_vectorstore(chunks: list[Document]) -> FAISS:
-#     try: 
-#         embedding_model = get_embeddings()
-#         faiss_path = Path(settings.faiss_index)
-#         faiss_path.mkdir(parents=True, exist_ok=True)  # tự động tạo thư mục nếu chưa tồn tại
-        
-#         vectorstore = FAISS.from_documents(
-#             documents=chunks,
-#             embedding=embedding_model,
-#             distance_strategy=DistanceStrategy.COSINE
-#         )
-    
-#         vectorstore.save_local(folder_path=str(faiss_path))
-        
-#         log.info("Vectorstore built and saved to %s", faiss_path)
-        
-#         return vectorstore
-    
-#     except Exception as e:
-#         log.error("Error building vectorstore: %s", e)
-#         raise e
 
 def connect_to_pgvector() -> PGVector:
     try:
@@ -98,31 +74,6 @@ def connect_to_pgvector() -> PGVector:
         
     return vectorstore 
     
-# def load_or_build(rebuild: bool = False) -> FAISS:
-#     # kiểm tra xem có tồn tại thư mục faiss_index hay không
-#     # nếu tồn tại thì load vectorstore từ thư mục đó
-#     faiss_file = Path(settings.faiss_index) / "index.faiss"
-
-#     if not rebuild and faiss_file.exists(): 
-#         vectorstore = FAISS.load_local(
-#             folder_path=str(Path(settings.faiss_index)), 
-#             embeddings=get_embeddings(),
-#             distance_strategy=DistanceStrategy.COSINE,
-#             allow_dangerous_deserialization=True
-#         )
-#         log.info("Loaded existing vectorstore from %s", settings.faiss_index)
-#     # nếu không tồn tại thì build vectorstore mới
-#     else:
-#         documents = load_documents(settings.paper_dirs)
-#         if not documents:
-#             log.warning("Không có tài liệu nào — khởi động không có index")
-#             return None
-        
-#         chunks = split_documents(documents)
-#         vectorstore = build_vectorstore(chunks)
-#         log.info("Built new vectorstore and saved to %s", settings.faiss_index) 
-    
-#     return vectorstore
 
 # Hàm được cải tiến để load hoặc build vectorstore cho một user_id cụ thể 
 def load_or_build(user_id: str = None, files_to_rebuild: list[str] = None) -> PGVector:
@@ -130,7 +81,7 @@ def load_or_build(user_id: str = None, files_to_rebuild: list[str] = None) -> PG
     vectorstore = connect_to_pgvector()
     
     if user_id and files_to_rebuild:
-        documents = load_documents(settings.paper_dirs)
+        documents = load_documents(user_id, files_to_rebuild[0])
         if not documents:
             log.warning("Không có tài liệu nào — khởi động không có index")
             return None
@@ -149,11 +100,9 @@ def load_or_build(user_id: str = None, files_to_rebuild: list[str] = None) -> PG
     return vectorstore
 
 # Hàm xóa các vector của một user_id và file_name cụ thể trong PGVector
+# Xóa các vector thuộc về user_id và file_name cụ thể.
+# Không xóa toàn bộ collection, chỉ xóa dữ liệu của riêng user đó.
 def delete_user_file_vectors(vectorstore, user_id: str, file_name: str):
-    """
-    Xóa các vector thuộc về user_id và file_name cụ thể.
-    Không xóa toàn bộ collection, chỉ xóa dữ liệu của riêng user đó.
-    """
     with vectorstore._engine.connect() as conn:
         statement = text("""
             DELETE FROM langchain_pg_embedding
