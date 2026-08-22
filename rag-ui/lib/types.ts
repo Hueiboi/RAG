@@ -12,6 +12,17 @@ export interface UploadResponse {
     filename: string
 }
 
+// Documents list
+export interface DocumentItem {
+    name: string
+    size: number | null
+    created_at: string | null
+}
+
+export interface DocumentsResponse {
+    documents: DocumentItem[]
+}
+
 // Message UI
 export interface Message {
     id: string

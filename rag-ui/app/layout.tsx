@@ -14,7 +14,7 @@ const jetbrainsMono = JetBrains_Mono({
 export default function RootLayout({children}: Readonly<{children: React.ReactNode;}>) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen">{children}</body>
+      <body className="min-h-screen" suppressHydrationWarning>{children}</body>
     </html>
   );
 }

@@ -7,6 +7,7 @@ from src.config import settings
 rag_chain = None
 security = HTTPBearer()
 supabase = create_client(settings.supabase_url, settings.supabase_anon_key)
+supabase_admin = create_client(settings.supabase_url, settings.supabase_service_role_key)
 
 def get_chain():
     return rag_chain

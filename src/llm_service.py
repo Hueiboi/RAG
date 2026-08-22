@@ -5,7 +5,7 @@ from langchain_groq import ChatGroq
 def get_llm() -> ChatGroq:
     return ChatGroq(
         model=settings.groq_model,
-        api_key=settings.groq_api_key
+        api_key=settings.groq_api_key,
     )
     
 def get_prompt() -> ChatPromptTemplate:

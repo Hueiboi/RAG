@@ -55,7 +55,18 @@ SCORE_THRESHOLD=0.5
 DATABASE_URL=postgresql://... # Supabase Postgres (pgvector)
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key # server-only, tuyệt đối không expose
 ```
+
+### Supabase Storage — Service Role Key
+
+Backend dùng `supabase_admin` (service_role_key) để upload file lên Storage
+thay vì anon_key, vì:
+- RLS policy trên Storage chặn anon_key
+- Backend enforce path isolation bằng code: `user_id/filename`
+- Service key chỉ dùng server-side, không bao giờ expose ra client
+
+Lưu ý: SUPABASE_SERVICE_KEY phải giữ bí mật tuyệt đối, không commit lên git.
 
 ### `venv` và chạy server
 
@@ -81,7 +92,7 @@ uvicorn src.main:app --reload
 ### `/api/upload`
 
 - Chỉ nhận `.txt`, `.pdf`, `.docx`.
-- File được upload lên Supabase Storage bucket `documents` tại path `{user_id}/{file_name}` (upsert / ghi đè file trùng tên).
+- File được upload lên Supabase Storage bucket `documents` tại path `{user_id}/{file_name}` (upsert / ghi đè file trùng tên) qua client `supabase_admin` (service_role_key).
 - Sau khi upload lưu cloud, backend gọi `load_or_build(user_id, [file_name])`: download file từ Storage, split chunk, gắn metadata `user_id` + `file_name`, xoá vector cũ của file đó rồi thêm vào PGVector.
 - `load_documents(user_id, file_name)` ghi file ra temp (dùng `tempfile`) rồi load để tương thích `PyPDFLoader`/`Docx2txtLoader`/`TextLoader`; file tạm được dọn trong `finally` → stateless, không phụ thuộc máy.
 
@@ -179,10 +190,9 @@ def delete_user_file_vectors(vectorstore, user_id: str, file_name: str):
         conn.commit()
 ```
 
-![Supabase Storage diagram]
 #### Thiết lập Supabase Storage (bucket + RLS)
 
-Upload qua `SUPABASE_ANON_KEY` chỉ hoạt động khi bucket có RLS policy cho Authenticated user:
+Backend upload qua `supabase_admin` (service_role_key) nên **không bị RLS chặn** (service key bypass RLS). Tuy nhiên nên vẫn tạo bucket private + policy để chặn client truy cập trực tiếp bằng anon_key:
 
 - Tạo bucket `documents` (private) trong Supabase → Storage.
 - Trong SQL Editor, thêm policy trên `storage.objects`:
@@ -214,19 +224,22 @@ async def upload(file: UploadFile = File(...), current_user = Depends(deps.get_c
 
     file_content = await file.read()
 
-    # 2. Lưu file lên Supabase Storage (upsert ghi đè file trùng tên)
-    deps.supabase.storage.from_("documents").upload(
-        path=f"{current_user.id}/{file.filename}",
+    # 2. Lưu file lên Supabase Storage (dùng supabase_admin / service_role_key để bypass RLS)
+    #    path phải trùng với path download trong load_documents: {user_id}/{file_name}
+    deps.supabase_admin.storage.from_("documents").upload(
+        path=f"{current_user.id}/{Path(file.filename).name}",
         file=file_content,
-        file_options={"upsert": True},
+        file_options={"upsert": "true"},
     )
 
     # 3. Ingest từ cloud: download -> split -> embed -> thêm vào PGVector
-    load_or_build(user_id=current_user.id, files_to_rebuild=[file.filename])
+    load_or_build(user_id=current_user.id, files_to_rebuild=[Path(file.filename).name])
     get_or_create_rag_chain.cache_clear()
 
     return {"message": f"File {file.filename} uploaded successfully."}
 ```
+
+> Lưu ý: `upsert` phải truyền **chuỗi** `"true"`, không phải bool `True` — nếu truyền bool, storage3 chuyển thẳng thành header `x-upsert` và httpx ném lỗi `TypeError: Header value must be str or bytes`.
 
 Trong đó `load_documents(user_id, file_name)` (tại `src/ingestion.py`):
 
@@ -269,6 +282,41 @@ async def chat(
 
 **Bài học:** Multi-tenancy nên được thiết kế bằng cách dùng một collection chung kết hợp với metadata (`user_id`, `file_name`) và filter ở tầng retrieval. Khi cập nhật file, chỉ xóa các vector thuộc đúng user và file đó thay vì xóa toàn bộ collection.
 
+### 4) Lỗi upload: sai path giữa upload và download
+
+**Triệu chứng:** `/api/upload` trả 500, hoặc upload tưởng thành công nhưng dữ liệu không ingest được.
+
+**Nguyên nhân:** path upload và path download không thống nhất.
+
+- Upload (trong route) trước đây dùng `path=file_path` — chỉ có tên file, đẩy lên gốc bucket.
+- Download (trong `load_documents`) luôn tìm tại `{user_id}/{file_name}`.
+
+→ File upload xuống `documents/<file>.pdf` nhưng load lại tìm `documents/<user_id>/<file>.pdf` → không gặp nhau.
+
+**Fix:** upload cũng phải dùng `path=f"{current_user.id}/{file_path}"`, đồng thời dùng `Path(file.filename).name` (đã sanitize) cho cả upload lẫn `files_to_rebuild`.
+
+**Bài học:** mọi đường dẫn file trong Storage phải là một **schema duy nhất** (`{user_id}/{file_name}`), và phải được dùng đồng bộ ở tất cả các bước upload/download.
+
+### 5) Lỗi upload: `TypeError: Header value must be str or bytes, not <class 'bool'>`
+
+**Triệu chứng:** `/api/upload` trả 500 với traceback trong `httpx` khi merge headers.
+
+**Nguyên nhân:** `file_options={"upsert": True}` truyền bool, storage3 chuyển thẳng `True` thành header `x-upsert: True`; httpx từ chối header không phải str/bytes.
+
+**Fix:** truyền chuỗi `file_options={"upsert": "true"}`.
+
+**Bài học:** khi truyền option biến thành HTTP header cho storage3, phải dùng **string** (`"true"`/`"false"`), không dùng bool Python.
+
+### 6) RLS chặn anon_key → phải dùng service_role_key
+
+**Triệu chứng:** upload qua anon_key bị RLS chặn (403) dù đã thêm policy `own_insert`/`own_select`.
+
+**Nguyên nhân:** policy yêu cầu `(storage.foldername(name))[1] = auth.uid()::text` — tức folder đầu tiên phải là `user_id`. Backend enforce path isolation bằng code ở tầng route, nhưng storage vẫn áp RLS lên anon_key.
+
+**Fix:** dùng client `supabase_admin` (service_role_key) để upload; RLS không áp dụng cho service key. Path vẫn giữ schema `{user_id}/{file_name}` và `user_id` được lấy từ token đã verify trong `get_current_user` — không bao giờ tin `file.filename`.
+
+**Bài học:** service_role_key bypass mọi RLS nên chỉ dùng server-side; backend phải tự enforce path isolation và không expose key ra client.
+
 
 ## Troubleshooting
 
@@ -276,7 +324,10 @@ async def chat(
 | --- | --- | --- |
 | Server không start | Thiếu `GROQ_API_KEY` hoặc `DATABASE_URL` | Kiểm tra `.env` ở root |
 | Upload bị lỗi 400 | File không đúng `.txt`/`.pdf`/`.docx` | Upload đúng định dạng |
-| Upload không lưu lên Storage | Bucket `documents` chưa có RLS policy | Thêm policy cho Authenticated user (xem bên dưới) |
+| Upload lỗi `Header value must be str or bytes` | `file_options={"upsert": True}` truyền bool | Đổi thành `"upsert": "true"` |
+| Upload không lưu lên Storage | Path upload và download không khớp | Cả hai phải là `{user_id}/{file_name}` |
+| Upload bị RLS chặn (403) | Dùng anon_key cho upload | Dùng `supabase_admin` (service_role_key) server-side |
+| `SUPABASE_SERVICE_ROLE_KEY` thiếu | Không set biến môi trường | Thêm vào `.env` (không commit lên git) |
 | Chat trả lời yếu | Context không đủ liên quan | Tuning `TOP_K` và `SCORE_THRESHOLD` |
 | Dữ liệu cũ không cập nhật | Chain đang cache | Gọi `/api/upload` lại để `cache_clear()` |
 

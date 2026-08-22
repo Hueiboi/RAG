@@ -45,5 +45,19 @@
     - Đã bổ sung user_id cho get_retriever để tạo đúng retriever cho user đó
     - Không khởi tạo chain xuyên suốt lifespan -> khởi tạo chain theo từng request (tạm thời cho MVP)
     - Lưu ý sau này nâng cấp redis caching để hướng tới production...
+
+### 15/08/2026
 - [x] Supabase Storage thay papers/ local
+
+### 22/08/2026
+- [x] GET /documents endpoint — `src/api/routes/chat.py`
+- [x] DELETE /documents endpoint — `src/api/routes/chat.py`
+- [x] Sidebar hiển thị file đã upload — `rag-ui/components/Sidebar.tsx`
+- [x] ConfirmDialog xóa file (UI đẹp) — `rag-ui/components/ConfirmDialog.tsx`
+- [x] Delete xóa cả Storage + pgvector vectors — `src/api/routes/chat.py` + `src/ingestion.py`
+- [x] Strip <think> tag của Qwen — `src/api/routes/chat.py`
+- [x] react-markdown render response đúng — `rag-ui/components/MessageBubble.tsx`
+- [x] Điều chỉnh score_threshold cho pgvector (0.0), thay model **Qwen3.6-27b** — `src/config.py`
+
+
 - [ ] Chat history lưu DB

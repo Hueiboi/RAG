@@ -2,6 +2,9 @@
 
 import { Bot, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Markdown from "react-markdown";
+import remarkGfm from 'remark-gfm'
+
 
 interface MessageBubbleProps {
   role: "user" | "assistant";
@@ -31,7 +34,7 @@ export function MessageBubble({ role, content, isLatestBot }: MessageBubbleProps
           !isUser && isLatestBot && "animate-glow-fade"
         )}
       >
-        {content}
+        <Markdown remarkPlugins={[remarkGfm]}>{content}</Markdown>
       </div>
 
       {/* User avatar */}

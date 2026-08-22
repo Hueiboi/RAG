@@ -11,12 +11,12 @@ from src.config import settings
 from functools import lru_cache
 from langchain_core.documents import Document   
 from sqlalchemy import text
-from src.dependencies import supabase
+from src.dependencies import supabase, supabase_admin
 
 # Cải tiến hàm load_documents để chỉ load các file của user_id cụ thể từ supabase storage
 # Loader chỉ nạp từ đường dẫn file thay vì bytes -> download từ supabase rồi ghi ra file tạm để có đường dẫn file
 def load_documents(user_id: str, file_name: str) -> list[Document]:
-    data = supabase.storage.from_("documents").download(f"{user_id}/{file_name}")
+    data = supabase_admin.storage.from_("documents").download(f"{user_id}/{file_name}")
     suffix = Path(file_name).suffix.lower()
     temp = tmp.NamedTemporaryFile(suffix=suffix, delete=False)
     temp.write(data); temp.close()

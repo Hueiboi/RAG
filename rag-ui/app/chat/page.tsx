@@ -4,12 +4,13 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bot, LogIn } from "lucide-react";
+import { Bot, LogIn, PanelRightClose, PanelRightOpen } from "lucide-react";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { chatApi } from "@/lib/api";
 import { MessageBubble } from "@/components/MessageBubble";
 import { InputArea } from "@/components/InputArea";
+import Sidebar from "@/components/Sidebar";
 import UserBadge from "@/components/UserBadge";
 import { getSupabaseBrowserClient } from "@/lib/supabase/browser-client";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
@@ -26,6 +27,8 @@ export default function Chat() {
   const [file, setFile] = useState<File | null>(null);
   const [currentUser, setCurrentUser] = useState<SupabaseUser | null>(null);
   const [authReady, setAuthReady] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const supabase = getSupabaseBrowserClient();
   const router = useRouter();
@@ -74,6 +77,7 @@ export default function Chat() {
 
         toast.success("Nạp tài liệu thành công!");
         setFile(null);
+        setRefreshKey((k) => k + 1);
       }
 
       // 2. Gửi tin nhắn Chat
@@ -151,6 +155,19 @@ export default function Chat() {
           <h1 className="text-lg font-semibold text-text-primary">RAG Assistant</h1>
         </div>
         <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-text-secondary hover:text-text-primary"
+            onClick={() => setSidebarOpen((v) => !v)}
+            aria-label={sidebarOpen ? "Ẩn danh sách tài liệu" : "Hiện danh sách tài liệu"}
+          >
+            {sidebarOpen ? (
+              <PanelRightClose className="w-4 h-4" />
+            ) : (
+              <PanelRightOpen className="w-4 h-4" />
+            )}
+          </Button>
           {!currentUser ? (
             <Button
               variant="outline"
@@ -167,59 +184,68 @@ export default function Chat() {
         </div>
       </header>
 
-      {/* Messages */}
-      <ScrollArea className="flex-1 px-4 lg:px-6 py-4">
-        <div className="max-w-2xl mx-auto space-y-4">
-          {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-[50vh] text-center space-y-3">
-              <Bot className="w-12 h-12 text-text-muted stroke-[1.5]" />
-              <p className="text-sm font-medium text-text-secondary">
-                Chưa có cuộc hội thoại nào.
-              </p>
-              <p className="text-xs text-text-muted max-w-xs">
-                Hãy tải lên một tài liệu (PDF, Docx, TXT) và đặt câu hỏi để AI truy vấn thông tin.
-              </p>
-            </div>
-          )}
+      {/* Main + Sidebar */}
+      <div className="flex flex-1 min-h-0">
+        {/* Main area */}
+        <div className="flex flex-col flex-1 min-w-0">
+          {/* Messages */}
+          <ScrollArea className="flex-1 px-4 lg:px-6 py-4">
+            <div className="max-w-2xl mx-auto space-y-4">
+              {messages.length === 0 && (
+                <div className="flex flex-col items-center justify-center h-[50vh] text-center space-y-3">
+                  <Bot className="w-12 h-12 text-text-muted stroke-[1.5]" />
+                  <p className="text-sm font-medium text-text-secondary">
+                    Chưa có cuộc hội thoại nào.
+                  </p>
+                  <p className="text-xs text-text-muted max-w-xs">
+                    Hãy tải lên một tài liệu (PDF, Docx, TXT) và đặt câu hỏi để AI truy vấn thông tin.
+                  </p>
+                </div>
+              )}
 
-          {messages.map((msg, idx) => {
-            const isLatestBot =
-              msg.role === "assistant" && idx === messages.length - 1;
-            return (
-              <MessageBubble
-                key={msg.id}
-                role={msg.role}
-                content={msg.content}
-                isLatestBot={isLatestBot}
+              {messages.map((msg, idx) => {
+                const isLatestBot =
+                  msg.role === "assistant" && idx === messages.length - 1;
+                return (
+                  <MessageBubble
+                    key={msg.id}
+                    role={msg.role}
+                    content={msg.content}
+                    isLatestBot={isLatestBot}
+                  />
+                );
+              })}
+
+              {loading && (
+                <div className="flex gap-3 justify-start">
+                  <div className="w-8 h-8 rounded-full bg-bg-surface border border-bg-border flex items-center justify-center animate-pulse">
+                    <Bot className="w-4 h-4 text-text-muted" />
+                  </div>
+                  <div className="bg-bg-surface border border-bg-border text-text-secondary rounded-[18px_18px_18px_4px] px-4 py-2.5 text-sm animate-pulse">
+                    Đang truy vấn tài liệu và suy nghĩ...
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+          </ScrollArea>
+
+          {/* Input area */}
+          <div className="border-t border-bg-border px-4 lg:px-6 py-3 shrink-0">
+            <div className="max-w-2xl mx-auto">
+              <InputArea
+                onSend={handleSend}
+                onFileUpload={handleFileUpload}
+                onFileRemove={() => setFile(null)}
+                loading={loading}
+                file={file}
               />
-            );
-          })}
-
-          {loading && (
-            <div className="flex gap-3 justify-start">
-              <div className="w-8 h-8 rounded-full bg-bg-surface border border-bg-border flex items-center justify-center animate-pulse">
-                <Bot className="w-4 h-4 text-text-muted" />
-              </div>
-              <div className="bg-bg-surface border border-bg-border text-text-secondary rounded-[18px_18px_18px_4px] px-4 py-2.5 text-sm animate-pulse">
-                Đang truy vấn tài liệu và suy nghĩ...
-              </div>
             </div>
-          )}
-          <div ref={messagesEndRef} />
+          </div>
         </div>
-      </ScrollArea>
 
-      {/* Input area */}
-      <div className="border-t border-bg-border px-4 lg:px-6 py-3 shrink-0">
-        <div className="max-w-2xl mx-auto">
-          <InputArea
-            onSend={handleSend}
-            onFileUpload={handleFileUpload}
-            onFileRemove={() => setFile(null)}
-            loading={loading}
-            file={file}
-          />
-        </div>
+        {/* Right sidebar */}
+        {sidebarOpen && <Sidebar refreshKey={refreshKey} />}
       </div>
       <Toaster />
     </div>
