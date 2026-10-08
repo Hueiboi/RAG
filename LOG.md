@@ -58,6 +58,13 @@
 - [x] Strip <think> tag của Qwen — `src/api/routes/chat.py`
 - [x] react-markdown render response đúng — `rag-ui/components/MessageBubble.tsx`
 - [x] Điều chỉnh score_threshold cho pgvector (0.0), thay model **Qwen3.6-27b** — `src/config.py`
-
-
 - [ ] Chat history lưu DB
+
+### 08/10/2026
+- [x] Tích hợp LangSmith Observability — `@traceable` trên endpoint `POST /api/chat` — `src/api/routes/chat.py`
+- [x] Trace gắn tag/metadata theo user qua `chain.with_config()` (không mutate chain đang `lru_cache`) — `src/api/routes/chat.py`
+- [x] `load_dotenv()` trước mọi import vì LangSmith chỉ đọc `os.environ`, không đọc `Settings` — `src/main.py`
+- [x] Khai báo `langsmith_*` trong `Settings` (pydantic-settings chặn biến lạ trong `.env`) — `src/config.py`
+- [x] Bump `langsmith` 0.9.0 → 0.14.0 — `requirements.txt`
+- [x] Thêm biến `LANGSMITH_*` vào `.env.example` — `.env.example`
+- [x] Verify: chain `POST /api/chat` → `RunnablePassthrough` → `ChatPromptTemplate` → `ChatGroq`, tag `user:*` lan xuống các run con (project `personal-rag-chatbot`)

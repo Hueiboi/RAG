@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends , File, HTTPException, UploadFile
+from langsmith import traceable
 from pydantic import BaseModel
 from src.ingestion import load_or_build, delete_user_file_vectors, connect_to_pgvector
 from src.pipeline import get_or_create_rag_chain
@@ -19,6 +20,24 @@ class ChatResponse(BaseModel):
 def strip_thinking(text: str) -> str:
     return re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL).strip()
 
+# Chỉ giữ câu hỏi trong trace, bỏ qua object user của Supabase (rất nặng và không cần thiết).
+# FastAPI gọi endpoint bằng keyword nên thường là inputs["req"]; xử lý cả trường hợp
+# positional để không rơi vào cảnh báo "dropping inputs".
+def _trace_inputs(inputs: dict) -> dict:
+    req = inputs.get("req") or (inputs.get("args") or [None])[0]
+    return {"question": getattr(req, "question", None)}
+
+# ĐÂY là chỗ cần trace: decorate hàm vào của request (entry point).
+# LangSmith sẽ tạo 1 run cha "POST /api/chat", các bước LCEL bên trong
+# (retrieve -> prompt -> ChatGroq) tự động nằm dưới run cha này.
+# KHÔNG decorate get_llm/get_retriever/get_or_create_rag_chain - đó là code chạy 1 lần lúc
+# khởi động (và còn bị lru_cache), trace chúng chỉ gây nhiễu, không phản ánh chất lượng trả lời.
+@traceable(
+    run_type="chain",
+    name="POST /api/chat",
+    tags=["rag", "chat-endpoint"],
+    process_inputs=_trace_inputs,
+)
 @router.post("/chat")
 async def chat(req: ChatRequest, current_user = Depends(deps.get_current_user)):
     chain = get_or_create_rag_chain(user_id=current_user.id)
@@ -27,7 +46,13 @@ async def chat(req: ChatRequest, current_user = Depends(deps.get_current_user)):
         return {"answer": "Bạn chưa upload tài liệu nào. Vui lòng upload file trước khi đặt câu hỏi."}
     
     question = req.question
-    answer = chain.invoke(req.question)
+    # with_config gan tag/metadata cho cau hoi nay de loc va so sanh duoc theo user.
+    # No tra ve object MOI nen khong anh huong chain dang bi lru_cache dung chung.
+    answer = chain.with_config(
+        run_name="rag_chain",
+        tags=[f"user:{current_user.id}"],
+        metadata={"user_id": current_user.id},
+    ).invoke(question)
     answer = strip_thinking(answer)
     return {"answer": answer}
 

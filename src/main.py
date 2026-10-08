@@ -1,3 +1,10 @@
+from dotenv import load_dotenv
+
+# Nạp .env vào os.environ TRƯỚC khi import phần còn lại:
+# pydantic-settings (src/config.py) tự đọc .env riêng, nhưng LangSmith/LangChain
+# chỉ đọc os.environ -> không có dòng này thì tracing sẽ không bật dù .env đã đúng.
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager

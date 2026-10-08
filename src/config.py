@@ -22,6 +22,15 @@ class Settings(BaseSettings):
     supabase_anon_key: str
     supabase_service_role_key: str
 
+    # LangSmith tracing
+    # Phải khai báo ở đây: pydantic-settings mặc định chặn biến lạ trong .env
+    # (extra="forbidden"), thiếu khai báo là app sẽ crash lúc khởi động.
+    # Tên field tự map từ biến LANGSMITH_TRACING / LANGSMITH_API_KEY / LANGSMITH_PROJECT.
+    langsmith_tracing: str = "false"
+    langsmith_endpoint: str = "https://api.smith.langchain.com"
+    langsmith_api_key: str = ""
+    langsmith_project: str = "personal-rag-chatbot"
+
     # Cấu hình để sử dụng biến môi trường từ file .env
     model_config = {"env_file": ".env"}
     
