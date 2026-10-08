@@ -57,8 +57,13 @@
 - [x] Delete xóa cả Storage + pgvector vectors — `src/api/routes/chat.py` + `src/ingestion.py`
 - [x] Strip <think> tag của Qwen — `src/api/routes/chat.py`
 - [x] react-markdown render response đúng — `rag-ui/components/MessageBubble.tsx`
-- [x] Điều chỉnh score_threshold cho pgvector (0.0), thay model **Qwen3.6-27b** — `src/config.py`
-- [ ] Chat history lưu DB
+- [x] Điều chỉnh score_threshold cho pgvector (0.0), thay model "qwen/qwen3.8-27b" — `src/config.py`
+
+### 06/09/2026
+- [x] Chat history lưu DB (mount/race condition/handle edge case api async) - `rag-ui/app/chat/page.tsx`
+
+### 23/09/2026
+- [x] Cài đặt Langsmith Observability
 
 ### 08/10/2026
 - [x] Tích hợp LangSmith Observability — `@traceable` trên endpoint `POST /api/chat` — `src/api/routes/chat.py`

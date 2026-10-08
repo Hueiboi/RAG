@@ -108,3 +108,32 @@ Mặc định app chạy ở `http://localhost:3000`.
 | `lib/supabase/browser-client.ts` | Supabase client cho browser |
 | `lib/supabase/server-client.ts` | Supabase client cho server |
 | `proxy.ts` | Route guard cho auth |
+
+## Note 
+- **Mount/Unmount component**
+    ```typescript
+    // Mount   = component được tạo ra và hiển thị lên DOM
+    // Unmount = component bị xóa khỏi DOM (navigate sang trang khác, logout...)
+
+    useEffect(() => {
+    // Code ở đây chạy khi MOUNT
+
+    return () => {
+        // Code ở đây chạy khi UNMOUNT ← cleanup function
+    };
+    }, []); // Điều kiện useEffect load
+    ```
+- **Race condition**: Thêm cancelled flag
+    Timeline **!w/** cancelled flag:
+        t=0: user login → getHistory() bắt đầu fetch
+        t=1: user logout → setMessages([]) → reset
+        t=2: fetch xong → setMessages(data) ← GHI ĐÈ LÊN! bug
+
+    Timeline **w/** cancelled flag:
+        t=0: user login → getHistory() bắt đầu fetch
+        t=1: user logout → currentUser = null
+            → useEffect cleanup chạy → cancelled = true
+        t=2: fetch xong → if (cancelled) return ← bỏ qua, không ghi đè
+
+- **Call api miss edge case**
+    > Khi vào case error nhớ reset state và dùng toast/message alert (VD: setHistoryLoading(false) -> tránh loading vô tận dù bị lỗi)

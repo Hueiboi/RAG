@@ -24,6 +24,7 @@ interface Message {
 export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [historyLoading, setHistoryLoading] = useState<boolean>(true);
   const [file, setFile] = useState<File | null>(null);
   const [currentUser, setCurrentUser] = useState<SupabaseUser | null>(null);
   const [authReady, setAuthReady] = useState(false);
@@ -34,20 +35,51 @@ export default function Chat() {
   const router = useRouter();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
+  // Init auth
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
+    supabase.auth.getUser().then(({ data: { user } }) => { // Lấy user khi component mount
       setCurrentUser(user);
       setAuthReady(true);
     });
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => { // Lắng nghe auth state change
       setCurrentUser(session?.user ?? null);
+      if (!session?.user) { // Logout -> reset messages và historyLoading
+        setMessages([]);
+        setHistoryLoading(true);
+      }
     });
 
     return () => {
-      listener?.subscription.unsubscribe();
+      listener?.subscription.unsubscribe(); // Cleanup listener khi component unmount
     };
-  }, [supabase]);
+  }, [supabase]); // Chỉ chạy khi supabase instance thay đổi (thường là không thay đổi)
+
+  // Load chat history
+  useEffect(() => {
+    if (!authReady || !currentUser) return; // Chờ auth để load history
+
+    let cancelled = false; // Ngăn race condition nếu component unmount trước
+
+    chatApi.getHistory().then(({ data, error }) => {
+      if (cancelled) return;
+      if (!error && data) {
+        setMessages(
+          data.history
+            .filter((m) => m.role === "user" || m.role === "assistant")
+            .map((m) => ({ id: m.id, role: m.role, content: m.content }))
+        );
+      } else if (error) {
+        toast.error(`Lỗi tải lịch sử: ${error}`);
+        setMessages([{ id: "error", role: "assistant", content: "Rất tiếc, không thể tải lịch sử hội thoại." }]);
+      }
+      setHistoryLoading(false);
+    });
+
+    return () => {
+      cancelled = true; // Cleanup khi currentUser hoặc authReady thay đổi hoặc component unmount
+    };
+  }, [authReady, currentUser]); // Chỉ chạy khi authReady hoặc currentUser thay đổi
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -96,14 +128,16 @@ export default function Chat() {
         return;
       }
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          content: data.answer, 
-        },
-      ]);
+      const assistantMessage: Message = {
+        id: crypto.randomUUID(),
+        role: "assistant",
+        content: data.answer,
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+
+      chatApi.saveMessage({ role: userMessage.role, content: userMessage.content });
+      chatApi.saveMessage({ role: assistantMessage.role, content: assistantMessage.content });
     } catch (error) {
       // Catch này chỉ để phòng ngừa các lỗi bất ngờ ở Frontend (như crypto.randomUUID lỗi...)
       console.error("Lỗi hệ thống RAG:", error);
@@ -191,7 +225,16 @@ export default function Chat() {
           {/* Messages */}
           <ScrollArea className="flex-1 px-4 lg:px-6 py-4">
             <div className="max-w-2xl mx-auto space-y-4">
-              {messages.length === 0 && (
+              {historyLoading && messages.length === 0 ? (
+                <div className="flex gap-3 justify-start">
+                  <div className="w-8 h-8 rounded-full bg-bg-surface border border-bg-border flex items-center justify-center animate-pulse">
+                    <Bot className="w-4 h-4 text-text-muted" />
+                  </div>
+                  <div className="bg-bg-surface border border-bg-border text-text-secondary rounded-[18px_18px_18px_4px] px-4 py-2.5 text-sm animate-pulse">
+                    Đang tải lịch sử hội thoại...
+                  </div>
+                </div>
+              ) : messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-[50vh] text-center space-y-3">
                   <Bot className="w-12 h-12 text-text-muted stroke-[1.5]" />
                   <p className="text-sm font-medium text-text-secondary">
@@ -201,7 +244,7 @@ export default function Chat() {
                     Hãy tải lên một tài liệu (PDF, Docx, TXT) và đặt câu hỏi để AI truy vấn thông tin.
                   </p>
                 </div>
-              )}
+              ) : null}
 
               {messages.map((msg, idx) => {
                 const isLatestBot =
@@ -237,7 +280,7 @@ export default function Chat() {
                 onSend={handleSend}
                 onFileUpload={handleFileUpload}
                 onFileRemove={() => setFile(null)}
-                loading={loading}
+                loading={loading || historyLoading}
                 file={file}
               />
             </div>

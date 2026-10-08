@@ -1,4 +1,4 @@
-import { ApiResponse, ChatResponse, DocumentsResponse, UploadResponse } from '@/lib/types'
+import { ApiResponse, ChatResponse, DocumentsResponse, UploadResponse, ChatHistory } from '@/lib/types'
 import { createBrowserClient } from '@supabase/ssr'
 
 const supabase = createBrowserClient(
@@ -20,8 +20,8 @@ async function getAuthHeader(): Promise<Record<string, string>> {
 // getAuthHeader được sử dụng để lấy thông tin xác thực từ Supabase và thêm vào header của các yêu cầu API.
 export const chatApi = {
   sendMessage: async (question: string): ApiResponse<ChatResponse> => {
-    const authHeader = await getAuthHeader();
     try {
+      const authHeader = await getAuthHeader();
       const res = await fetch(`${base_url}/chat`, {
         method: "POST",
         headers: { 
@@ -43,8 +43,8 @@ export const chatApi = {
   },
 
   getDocuments: async (): ApiResponse<DocumentsResponse> => {
-    const authHeader = await getAuthHeader();
     try {
+      const authHeader = await getAuthHeader();
       const res = await fetch(`${base_url}/documents`, {
         method: "GET",
         headers: { ...authHeader }
@@ -63,8 +63,8 @@ export const chatApi = {
   },
 
   deleteDocument: async (fileName: string): ApiResponse<{ message: string }> => {
-    const authHeader = await getAuthHeader();
     try {
+      const authHeader = await getAuthHeader();
       const res = await fetch(`${base_url}/documents/${encodeURIComponent(fileName)}`, {
         method: "DELETE",
         headers: { ...authHeader }
@@ -101,6 +101,48 @@ export const chatApi = {
       }
 
       return { data: result, error: null };
+    } catch (err: unknown) {
+      return { data: null, error: (err as Error).message || "Không thể kết nối đến Server" };
+    }
+  },
+  saveMessage: async (message: {role: string, content: string}): ApiResponse<void> => {
+    try {
+      const authHeader = await getAuthHeader();
+      const res = await fetch(`${base_url}/history`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeader
+        },
+        body: JSON.stringify(message)
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        return { data: null, error: result.detail || "Lưu lịch sử thất bại" };
+      }
+
+      return { data: result, error: null };
+    } catch (err: unknown) {
+      return { data: null, error: (err as Error).message || "Không thể kết nối đến Server" };
+    }
+  },
+  getHistory: async (): ApiResponse<{history: ChatHistory[]}> => {
+    try {
+      const authHeader = await getAuthHeader();
+      const res = await fetch(`${base_url}/history`, {
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeader
+        }
+      })
+
+      const result = await res.json()
+
+      if(!res.ok) return { data: null, error: result.detail || "Đồng bộ lịch sử thất bại" };
+
+      return {data: result, error: null}
     } catch (err: unknown) {
       return { data: null, error: (err as Error).message || "Không thể kết nối đến Server" };
     }

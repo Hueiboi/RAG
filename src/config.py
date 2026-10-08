@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     # Llm setting
     groq_api_key: str
-    groq_model: str = "qwen/qwen3.6-27b"
+    groq_model: str = "qwen/qwen3.8-27b"
     
     # Embedding setting
     embedding_model: str = "BAAI/bge-m3"

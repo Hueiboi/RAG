@@ -45,7 +45,7 @@ Backend đọc `.env` ở root project qua `pydantic-settings`.
 
 ```env
 GROQ_API_KEY=your_groq_api_key
-GROQ_MODEL=llama-3.1-8b-instant
+GROQ_MODEL=qwen/qwen3.8-27b
 EMBEDDING_MODEL=BAAI/bge-m3
 EMBEDDING_DEVICE=cpu
 CHUNK_SIZE=1200

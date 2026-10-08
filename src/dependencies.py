@@ -4,6 +4,10 @@ from fastapi.security import HTTPBearer
 from supabase import create_client
 from src.config import settings
 
+# Depends là DI container của FastAPI
+# Nếu truyền thẳng chỉ là referrence -> không thể chạy
+# Dùng depends fastapi tự inject để lấy kết quả
+
 rag_chain = None
 security = HTTPBearer()
 supabase = create_client(settings.supabase_url, settings.supabase_anon_key)

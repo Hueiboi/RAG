@@ -11,12 +11,18 @@ import re
 
 router = APIRouter()
 
+# Pydantic models cho request và response
 class ChatRequest(BaseModel):
     question: str
     
 class ChatResponse(BaseModel):
     answer: str
+
+class ChatHistory(BaseModel):
+    role: str
+    content: str
     
+# Hàm loại bỏ phần tư duy
 def strip_thinking(text: str) -> str:
     return re.sub(r'<think>.*?</think>', '', text, flags=re.DOTALL).strip()
 
@@ -46,8 +52,8 @@ async def chat(req: ChatRequest, current_user = Depends(deps.get_current_user)):
         return {"answer": "Bạn chưa upload tài liệu nào. Vui lòng upload file trước khi đặt câu hỏi."}
     
     question = req.question
-    # with_config gan tag/metadata cho cau hoi nay de loc va so sanh duoc theo user.
-    # No tra ve object MOI nen khong anh huong chain dang bi lru_cache dung chung.
+    # with_config gắn tag/metadata cho câu hỏi này để lọc và so sánh được theo user.
+    # Nó trả về object MỚI nên không ảnh hưởng chain đang được lru_cache dùng chung.
     answer = chain.with_config(
         run_name="rag_chain",
         tags=[f"user:{current_user.id}"],
@@ -66,7 +72,7 @@ async def list_documents(current_user = Depends(deps.get_current_user)):
                 "created_at": d.get("created_at")
             }
             for d in documents
-            if d.get("name") and not d["name"].endswith("/")  # filter folder
+            if d.get("name") and not d["name"].endswith("/")  # lọc bỏ các thư mục con, chỉ lấy file
         ]}
     
 @router.delete("/documents/{file_name}")
@@ -75,7 +81,7 @@ async def delete_document(file_name: str, current_user = Depends(deps.get_curren
     
     vectorstore = connect_to_pgvector()
     delete_user_file_vectors(vectorstore, user_id=current_user.id, file_name=file_name)
-    get_or_create_rag_chain.cache_clear()  # Clear the cache to force rebuilding the chain
+    get_or_create_rag_chain.cache_clear()  # clear cache để buộc rebuild lại chain
     
     log.info("Index rebuilt after deletion, new chain: %s", deps.rag_chain)
     
@@ -98,8 +104,26 @@ async def upload(file: UploadFile = File(...), current_user = Depends(deps.get_c
     )
     
     load_or_build(user_id=current_user.id, files_to_rebuild=[file_path])
-    get_or_create_rag_chain.cache_clear()  # Clear the cache to force rebuilding the chain
+    get_or_create_rag_chain.cache_clear()  # clear cache để buộc rebuild lại chain
     
     log.info("Index rebuilt, new chain: %s", deps.rag_chain)
         
     return {"message": f"File {file.filename} uploaded successfully."}
+
+@router.post("/history")
+async def save_history(history: ChatHistory, current_user = Depends(deps.get_current_user)):
+    history_data = {
+        "user_id": current_user.id,
+        "role": history.role,
+        "content": history.content
+    }
+    deps.supabase_admin.table("chat_messages").insert(history_data).execute()
+    return {"message": "History saved successfully."}
+
+@router.get("/history")
+async def get_history_by_id(current_user = Depends(deps.get_current_user)):
+    history = deps.supabase_admin.table("chat_messages").select("*").eq("user_id", current_user.id).order("created_at", desc=False).execute()
+    if not history.data:
+        return {"history": []}
+    return {"history": history.data}
+    

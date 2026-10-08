@@ -29,3 +29,10 @@ export interface Message {
     role: "user" | "assistant"
     content: string
 }
+
+export interface ChatHistory {
+    id: string,
+    role: "user" | "assistant",
+    content: string,
+    created_at: string
+}
