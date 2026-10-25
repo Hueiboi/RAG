@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "query": "Phương tiện giao thông phổ biến nhất tại Việt Nam hiện nay là gì?",
+    "ground_truth": "Xe máy (Motorcycles) vẫn là phương tiện giao thông chính.",
+    "context_anchor": "Motorcycles remain the primary form of transport, while private car ownership and public transit continue to increase."
+  },
+  {
+    "id": 2,
+    "query": "Xu hướng sở hữu phương tiện giao thông cá nhân và công cộng ở Việt Nam đang diễn ra như thế nào?",
+    "ground_truth": "Tỷ lệ sở hữu xe ô tô cá nhân và việc sử dụng giao thông công cộng tiếp tục tăng lên.",
+    "context_anchor": "Motorcycles remain the primary form of transport, while private car ownership and public transit continue to increase."
+  },
+  {
+    "id": 3,
+    "query": "Những nguyên nhân chính nào gây ra tình trạng ùn tắc giao thông vào giờ cao điểm tại các đô thị lớn?",
+    "ground_truth": "Do mật độ dân số cao, tốc độ đô thị hóa nhanh và lượng phương tiện giao thông tăng mạnh.",
+    "context_anchor": "Major cities experience congestion during rush hours because of high population density, rapid urbanization, and growing numbers of vehicles."
+  },
+  {
+    "id": 4,
+    "query": "Các cơ quan chức năng Việt Nam đã áp dụng những giải pháp nào để giảm thiểu tai nạn giao thông?",
+    "ground_truth": "Khuyến khích đội mũ bảo hiểm, thực thi pháp luật nghiêm ngặt hơn, giáo dục giao thông và cải thiện hạ tầng.",
+    "context_anchor": "Authorities promote helmet use, stricter law enforcement, traffic education, and infrastructure improvements to reduce accidents."
+  },
+  {
+    "id": 5,
+    "query": "Việt Nam đang tập trung đầu tư vào những loại hình hạ tầng giao thông nào cho tương lai?",
+    "ground_truth": "Đường cao tốc (expressways), các tuyến đường sắt đô thị (metro lines) và hệ thống giao thông thông minh (ITS).",
+    "context_anchor": "Ongoing investments in expressways, metro lines, and intelligent transportation systems aim to improve mobility, reduce congestion, and support sustainable economic development."
+  },
+  {
+    "id": 6,
+    "query": "Mục tiêu dài hạn của việc nâng cấp hệ thống giao thông thông minh và đường cao tốc là gì?",
+    "ground_truth": "Nhằm cải thiện khả năng di chuyển, giảm ùn tắc và hỗ trợ phát triển kinh tế bền vững.",
+    "context_anchor": "aim to improve mobility, reduce congestion, and support sustainable economic development."
+  }
+]
