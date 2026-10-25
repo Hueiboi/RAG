@@ -11,12 +11,12 @@ from src.config import settings
 from functools import lru_cache
 from langchain_core.documents import Document   
 from sqlalchemy import text
-from src.dependencies import supabase, supabase_admin
+from src import storage
 
 # Cải tiến hàm load_documents để chỉ load các file của user_id cụ thể từ supabase storage
 # Loader chỉ nạp từ đường dẫn file thay vì bytes -> download từ supabase rồi ghi ra file tạm để có đường dẫn file
 def load_documents(user_id: str, file_name: str) -> list[Document]:
-    data = supabase_admin.storage.from_("documents").download(f"{user_id}/{file_name}")
+    data = storage.download(user_id, file_name)
     suffix = Path(file_name).suffix.lower()
     temp = tmp.NamedTemporaryFile(suffix=suffix, delete=False)
     temp.write(data); temp.close()
@@ -79,13 +79,16 @@ def connect_to_pgvector() -> PGVector:
 def load_or_build(user_id: str = None, files_to_rebuild: list[str] = None) -> PGVector:
     # Kết nối đến cơ sở dữ liệu PostgreSQL qua supabase
     vectorstore = connect_to_pgvector()
-    
-    if user_id and files_to_rebuild:
-        documents = load_documents(user_id, files_to_rebuild[0])
-        if not documents:
-            log.warning("Không có tài liệu nào — khởi động không có index")
-            return None
-        
+
+    if not user_id or not files_to_rebuild:
+        log.warning("load_or_build cần user_id và files_to_rebuild — không có gì để build")
+        return None
+
+    documents = load_documents(user_id, files_to_rebuild[0])
+    if not documents:
+        log.warning("Không có tài liệu nào — khởi động không có index")
+        return None
+
     chunks = split_documents(documents)
     
     for chunk in chunks: 

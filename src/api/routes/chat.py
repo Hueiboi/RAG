@@ -3,6 +3,8 @@ from langsmith import traceable
 from pydantic import BaseModel
 from src.ingestion import load_or_build, delete_user_file_vectors, connect_to_pgvector
 from src.pipeline import get_or_create_rag_chain
+from src import storage
+from src import history as history_store
 from pathlib import Path
 import src.dependencies as deps
 import logging as log
@@ -64,20 +66,11 @@ async def chat(req: ChatRequest, current_user = Depends(deps.get_current_user)):
 
 @router.get("/documents")
 async def list_documents(current_user = Depends(deps.get_current_user)):
-    documents = deps.supabase_admin.storage.from_("documents").list(path=f"{current_user.id}")
-    return {"documents": [
-            {
-                "name": d["name"],
-                "size": d.get("metadata", {}).get("size"),
-                "created_at": d.get("created_at")
-            }
-            for d in documents
-            if d.get("name") and not d["name"].endswith("/")  # lọc bỏ các thư mục con, chỉ lấy file
-        ]}
+    return {"documents": storage.list_files(current_user.id)}
     
 @router.delete("/documents/{file_name}")
 async def delete_document(file_name: str, current_user = Depends(deps.get_current_user)):
-    deps.supabase_admin.storage.from_("documents").remove(paths=[f"{current_user.id}/{file_name}"])
+    storage.remove(current_user.id, file_name)
     
     vectorstore = connect_to_pgvector()
     delete_user_file_vectors(vectorstore, user_id=current_user.id, file_name=file_name)
@@ -97,11 +90,7 @@ async def upload(file: UploadFile = File(...), current_user = Depends(deps.get_c
     file_content = await file.read()
     file_path = Path(file.filename).name
     
-    deps.supabase_admin.storage.from_("documents").upload(
-        path=f"{current_user.id}/{file_path}",
-        file=file_content,
-        file_options={"upsert": "true"}
-    )
+    storage.upload(current_user.id, file_path, file_content)
     
     load_or_build(user_id=current_user.id, files_to_rebuild=[file_path])
     get_or_create_rag_chain.cache_clear()  # clear cache để buộc rebuild lại chain
@@ -112,18 +101,10 @@ async def upload(file: UploadFile = File(...), current_user = Depends(deps.get_c
 
 @router.post("/history")
 async def save_history(history: ChatHistory, current_user = Depends(deps.get_current_user)):
-    history_data = {
-        "user_id": current_user.id,
-        "role": history.role,
-        "content": history.content
-    }
-    deps.supabase_admin.table("chat_messages").insert(history_data).execute()
+    history_store.save(current_user.id, history.role, history.content)
     return {"message": "History saved successfully."}
 
 @router.get("/history")
 async def get_history_by_id(current_user = Depends(deps.get_current_user)):
-    history = deps.supabase_admin.table("chat_messages").select("*").eq("user_id", current_user.id).order("created_at", desc=False).execute()
-    if not history.data:
-        return {"history": []}
-    return {"history": history.data}
+    return {"history": history_store.list_for_user(current_user.id)}
     

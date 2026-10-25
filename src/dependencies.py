@@ -1,8 +1,7 @@
 # dependencies.py
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPBearer
-from supabase import create_client
-from src.config import settings
+from src.auth import AuthenticatedUser, verify_token
 
 # Depends là DI container của FastAPI
 # Nếu truyền thẳng chỉ là referrence -> không thể chạy
@@ -10,15 +9,15 @@ from src.config import settings
 
 rag_chain = None
 security = HTTPBearer()
-supabase = create_client(settings.supabase_url, settings.supabase_anon_key)
-supabase_admin = create_client(settings.supabase_url, settings.supabase_service_role_key)
+
 
 def get_chain():
     return rag_chain
 
-async def get_current_user(token: str = Depends(security)): 
-    try: 
-        response = supabase.auth.get_user(token.credentials)
-        return response.user
-    except Exception:
+
+async def get_current_user(token: str = Depends(security)) -> AuthenticatedUser:
+    """Xác thực request. Fail-closed: không có user hợp lệ thì luôn 401."""
+    user = verify_token(token.credentials)
+    if user is None:
         raise HTTPException(status_code=401, detail="Invalid token")
+    return user
