@@ -21,10 +21,13 @@ def load_documents(user_id: str, file_name: str) -> list[Document]:
     temp = tmp.NamedTemporaryFile(suffix=suffix, delete=False)
     temp.write(data); temp.close()
     try:
+        # TextLoader mặc định đọc theo locale của máy, không phải UTF-8. Trên
+        # Windows locale là cp1252 nên file .txt tiếng Việt sẽ ném RuntimeError
+        # ngay ở bước decode. Phải chỉ định encoding tường minh.
         loader = {
             ".pdf": PyPDFLoader, 
             ".docx": Docx2txtLoader, 
-            ".txt": TextLoader
+            ".txt": lambda path: TextLoader(path, encoding="utf-8"),
             }[suffix]
         return loader(temp.name).load()
     except Exception as e:

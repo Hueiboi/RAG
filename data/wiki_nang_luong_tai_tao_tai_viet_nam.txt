@@ -1,0 +1,145 @@
+Việt Nam có tiềm năng ở việc khai thác các nguồn năng lượng tái tạo như: thủy điện, điện gió, điện Mặt Trời, địa nhiệt, điện sinh khối. Trong đó, thủy điện được tập trung phát triển gần như tối đa tại Việt Nam. Tính đến cuối năm 2018, thủy điện chiếm gần 40% tổng công suất điện ở quốc gia này. Ngoại trừ thủy điện cỡ vừa và lớn, các dạng năng lượng tái tạo khác (bao gồm thủy điện nhỏ) chiếm 2,1% trong tổng công suất toàn hệ thống.
+
+Tính đến giữa năm 2019, hơn 80 nhà máy điện Mặt Trời đã được vận hành, đóng lưới nhờ vào cơ chế hỗ trợ giá FIT, trong khi cuối năm 2018 mới chỉ có 2 nhà máy điện Mặt Trời quy mô không lớn được đấu nối lên lưới điện. Vào thời điểm đó, tổng công suất điện Mặt Trời là hơn 4460 MW, chiếm hơn 8% tổng công suất phát điện của hệ thống. Trong khi đó, cuối năm 2018 tổng công suất điện gió trên Việt Nam mới chỉ đạt mức 228 MW, tuy nhiên đến năm 2019, số lượng dự án điện gió đang trong giai đoạn xây dựng với tổng công suất cao gấp 2 lần so với năm 2018.
+
+Đối với năng lượng sinh khối, việc sản xuất điện thương mại vẫn còn phát triển chậm do vấn đề về giá hỗ trợ cho bã mía. Tuy vậy, triển vọng cho việc phát triển nguồn năng lượng này còn khả quan dựa vào số lượng ngày càng tăng của rác thải đô thị và nông nghiệp, sản phẩm lâm nghiệp và chính phủ Việt Nam đang nghiên cứu Tiêu chuẩn danh mục đầu tư tái tạo để có thể thúc đẩy nguồn năng lượng này.
+
+== Thủy điện ==
+
+=== Tiềm năng ===
+
+Việt Nam có tiềm năng khai thác công suất cho thủy điện khoảng 25.000–38.000 MW, trong đó 60% tập trung ở miền Bắc, miền Trung là 27% và 13% còn lại ở miền Nam Việt Nam đã khai khác gần hết thủy điện lớn (công suất trên 100 MW). Vì vậy, Việt Nam tập trung vào phát triển thủy điện nhỏ.
+
+Ở Việt Nam đã phát hiện được hơn 1.000 địa điểm có tiềm năng khai thác làm các dự án thủy điện nhỏ, dao động từ 30–100 MW, tổng công suất đạt hơn 7.000 MW. Những địa điểm này tập trung chủ yếu ở vùng núi phía bắc, bờ biển Nam Trung Bộ và Tây Nguyên.
+
+=== Hiện trạng ===
+
+Tính đến năm 2015, tổng công suất toàn thủy điện nhỏ rơi vào khoảng 2.300 MW.
+
+=== Quy hoạch điện quốc gia ===
+
+Theo Quyết định số 428/QĐ-TTg của Thủ tướng Chính phủ Việt Nam: phê duyệt điều chỉnh Quy hoạch phát triển điện lực quốc gia giai đoạn 2011–2020 có xét đến năm 2030 (hay còn được gọi là Quy hoạch điện 7 điều chỉnh – QHD 7A):
+
+=== Một vài dự án nổi bật ===
+
+Một vài nhà máy thủy điện tiêu biểu đã được xây dựng kể từ năm 1975 có thể kể đến như: thủy điện Sơn La (2.400 MW), thủy điện Lai Châu (1.200 MW),Pắc Ma (140 MW), Thác Bà (120 MW),...
+
+=== Tác động ===
+
+Tháng 10 năm 2018, Bộ Công Thương và Ủy ban nhân dân đã loại bỏ 474 dự án thủy điện và 213 địa điểm tiềm năng vì những tác động tiêu cực của những dự án này tới môi trường và xã hội vượt xa những lợi ích có thể mang lại về mặt kiểm soát lũ lụt, thủy lợi và sản xuất điện. Phần lớn các dự án bị loại bỏ này nằm ở các tỉnh miền núi và trung du phía Bắc, Tây Nguyên và các tỉnh ven biển miền Trung, và được quản lý bởi các doanh nghiệp tư nhân.
+
+Quyết định về việc hủy các dự án trên được đưa ra do một chuỗi sự việc xảy ra với các thủy điện vừa và nhỏ, đặc biệt trong mùa mưa. Đây là dấu hiệu cho thấy cơ chế và chính sách phát triển thủy điện đã khuyến khích các nhà đầu tư tham gia quá nhiều mà không có các rào cản tích hợp để lọc ra những dự án kém hiệu quả và tiềm năng rủi ro cao. Một vài hậu quả tiêu cực của phát triển thủy điện:
+
+== Năng lượng gió ==
+
+=== Tiềm năng ===
+
+Với đường bờ biển dài hơn 3.000 km và các ngọn đồi và vùng cao của miền Bắc và miền Trung, Việt Nam có tiềm năng về phát triển điện gió (xem bản đồ) Theo nghiên cứu ESMAP của World Bank (xem bảng dưới đây), hơn 39% diện tích khu vực của Việt Nam có tốc độ gió trung bình hơn 6 m/s ở độ cao 65m, tương đương tổng công suất là 512 GW. Ngoài ra, khoảng 8% diện tích đất liền có tốc độ gió trung bình hằng năm hơn 7 m/s, tương đương tổng công suất 110 GW.
+
+Một nghiên cứu khác đã chỉ ra rằng 8,6% diện tích lãnh thổ Việt Nam có tiềm năng từ "tốt" đến "rất tốt" để phát triển các trạm điện gió lớn. Tỷ lệ này ở Campuchia và Thái Lan chỉ đạt 0,2%, Lào là 2,9%.
+
+=== Lịch sử ===
+
+Trang trại gió công suất lớn đầu tiên ở Việt Nam (30 MW) được khánh thành bởi Công ty Cổ phần Năng lượng tái tạo Việt Nam (REVN) ở tỉnh Bình Thuận vào ngày 18 tháng 4. 2 dự án tiếp theo, hybrid đảo Phú Quý (6 MW) và điện gió Bạc Liêu gần bờ giai đoạn 1 (16 MW), đều được hoàn thành vào năm 2013. Không có dự án nào được bổ sung thêm vào 2014 và 2015. Quy hoạch phát triển điện gió cho 8 tỉnh: Bạc Liêu, Bến Tre, Bình Thuận, Ninh Thuận, Cà Mau, Quảng Trị, Sóc Trăng và Trà Vinh được công bố vào năm 2016. Cùng năm đó đã khánh thành 83 MW điện gió Bạc Liêu giai đoạn 2 và 24 MW dự án Phú Lạc ở Bình Thuận. Năm 2017, điện gió Hướng Linh 2 (30 MW) ở tỉnh Quảng Trị đã được đóng lưới thành công. Tính đến cuối năm 2018, tổng công suất điện gió đã được lắp đặt ở Việt Nam đạt 228 MW. Dự án tổ hợp Trung Nam nằm ở Bình Thuận, bao gồm 40 MW trang trại điện gió và 204 MW điện Mặt Trời, đã được khánh thành vào tháng 4 năm 2019. Năm 2020, có 3 dự án được khánh thành là Đại Phong (40MW) ở Bình Thuận, Hướng Linh 1 (30MW) ở Quảng Trị và giai đoạn 2 của khu tổ hợp Trung Nam (64MW) tại Ninh Thuận.
+
+Tính đến hết ngày 31 tháng 5 năm 2019, 7 nhà máy điện gió đã được vận hành với tổng công suất là 331 MW.
+
+Quy hoạch điện 7 điều chỉnh đã nêu ra rằng Việt Nam sẽ có 800 MW điện gió vào năm 2020, 2.000 MW vào 2025 và 6.000 MW vào 2030. Tính đến giữa năm 2019, số lượng những dự án đang được xây dựng đã gần đạt đến mục tiêu quy hoạch năm 2020, và số lượng những dự án được phê duyệt cao gấp đôi so với mục tiêu quy hoạch năm 2025. Tính đến thời điểm ngày 22 tháng 7 năm 2021, đã có 13 nhà máy điện gió với tổng công suất là 611,33 MW đã vào vận hành thương mại.
+
+=== Một vài dự án nổi bật ===
+
+Trang trại điện gió Bạc Liêu 99 MW là dự án đầu tiên ở châu Á nằm trên bãi bồi liên triều và được hưởng mức giá FIT 9,8 cent/kWh và các điều khoản tài chính ưu đãi từ ngân hàng US–EXIM. Mặc dù việc xây dựng phức tạp hơn các dự án trên bờ, nhưng trang trại Bạc Liêu được đánh giá dễ tiếp cận hơn dự án ngoài khơi và nắm bắt được lợi thế của khu vực có sức gió mạnh mà không ảnh hưởng đến đất được sử dụng cho nuôi trồng thủy sản hoặc sản xuất muối (Theo CDM của dự án).
+
+Trong tháng 4 năm 2019, tổ hợp điện gió–Mặt Trời Trung Nam được khánh thành ở tỉnh Ninh Thuận, bao gồm trang trại điện gió (tổng vốn đầu tư là 4.000 tỷ đồng) và trang trại điện Mặt Trời (204 MW, tổng vốn đầu tư là 6.000 tỷ đồng). Giai đoạn 1 của nhà máy điện gió là có công suất là 39,95 MW được hoàn thành năm 2019. Giai đoạn 2 với công suất bổ sung 64 MW được hoàn thành xây dựng vào năm 2020. Giai đoạn 3 (công suất 48 MW) được hoàn thành vào năm 2021 và đến ngày 16 tháng 4 năm 2021, Trungnam Group đã tổ chức thành công Lễ khánh thành Nhà máy Điện gió Trung Nam. Đến thời điểm hiện tại, đây được xem nhà máy điện gió lớn nhất Việt Nam. Dự án đã được hoàn thành kịp thời để hưởng lợi từ giá FIT bởi chính phủ hỗ trợ cho năng lượng tái tạo. Cùng thời gian đó, rất nhiều dự án cũng được hoàn thành và đóng điện lên lưới, dẫn tới việc vượt quá khả năng truyền tải của lưới điện, dẫn tới một vài vấn đề nghiêm trọng bắt đầu từ tháng 7 năm 2019.
+
+== Năng lượng Mặt Trời ==
+
+=== Tiềm năng ===
+
+Việt Nam có tiềm năng lớn để phát triển năng lượng Mặt Trời, đặc biệt là ở miền Trung và miền Nam. Số giờ nắng trung bình khu vực phía Bắc trong khoảng từ 1.500–1.700 giờ nắng mỗi năm. Khu vực miền Trung và miền Nam có số giờ nắng trung bình hằng năm cao hơn, từ 2.000–2.600 giờ/năm.
+
+Cường độ bức xạ Mặt Trời trung bình hàng ngày ở phía Bắc là 3,69 kWh/m2, ở phía Nam là 5,9 kWh/m2. Lượng bức xạ Mặt Trời phụ thuộc vào lượng mây và bầu khí quyển của từng địa phương. Cường độ bức xạ ở miền Nam thường cao hơn miền Bắc.
+
+=== Hiện trạng ===
+
+Nửa đầu năm 2018, Bộ Công thương đã ghi nhận có 272 dự án điện Mặt Trời được đăng ký với tổng công suất là 17.500 MW, lớn gấp 9 lần thủy điện Hòa Bình và 7 lần thủy điện Sơn La. Tính đến cuối năm 2018, có khoảng 10.000 MW công suất được đăng kí, trong đó 8100 MW được bổ sung vào quy hoạch, hơn 100 dự án ký hợp đồng mua bán điện, 2 dự án vận hành với tổng công suất 86 MW.
+
+Tính đến ngày 30 tháng 6 năm 2019, 82 nhà máy điện Mặt Trời, với tổng công suất khoảng 4.464 MW, đã được đóng lưới thành công bởi Trung tâm điều độ hệ thống điện Quốc gia A0. Các dự án này được hưởng mức giá mua điện tương đương 9,35 US¢/kWh, trong thời gian 20 năm theo Quyết định 11/2017/QĐ-TTg của Thủ tướng Chính phủ. Vào thời điểm đó, năng lượng Mặt Trời đã chiếm 8,28% công suất lắp đặt của hệ thống điện của Việt Nam. Dự kiến đến cuối năm 2019, A0 sẽ tiếp tục vận hành và đưa vào hoạt động thêm 13 nhà máy điện Mặt Trời, với tổng công suất 630 MW, nâng tổng số nhà máy điện Mặt Trời trong toàn hệ thống lên 95 nhà máy. Tính đến hết ngày 31 tháng 12 năm 2020, tổng công suất lắp đặt về điện Mặt Trời và điện gió trên cả Việt Nam đã đạt 16.5 GW. Điều này cũng có nghĩa, có trên 25% tổng công suất nguồn điện là các nguồn năng lượng tái tạo biến thiên (gió, Mặt Trời). Tổng công suất đặt của điện Mặt Trời đến nay đã vượt xa các mục tiêu của QHĐ VII điều chỉnh cho năm 2030. Năm 2020 cũng chứng kiến sự bứt phá của điện Mặt Trời mái nhà với hơn 100.000 công trình điện Mặt Trời mái nhà đã được đấu nối vào hệ thống điện với tổng công suất lắp đặt gần 9.300 MWp.
+
+=== Quy hoạch điện quốc gia ===
+
+Theo như Quy hoạch điện 7 điều chỉnh, công suất điện Mặt Trời chỉ đạt 850 MW (năm 2020), khoảng 4.000 MW năm 2025 và khoảng 12.000 MW năm 2030. Sản lượng điện từ Mặt Trời chiểm khoảng 0,5% vào năm 2020, khoảng 1,6% vào năm 2025 và khoảng 3,3% vào năm 2030.
+
+=== Một vài dự án nổi bật ===
+
+Một vài dự án điện Mặt Trời quy mô lớn đã được xây dựng tại Việt Nam:
+
+=== Tác động ===
+
+Dự án điện Mặt Trời đầm Trà Ổ (xã Mỹ Lợi, huyện Phú Mỹ, tỉnh Bình Định), với công suất 50 MWp, được dự kiến thực hiện vào Quý II/2019 trên diện tích mặt nước hồ khoảng 60 ha trên tổng diện tích 1.300 ha. Tuy nhiên, từ giữa năm 2018, trong quá trình xây dựng, dự án đã vấp phải sự phản đối quyết liệt từ người dân địa phương do lo ngại về ảnh hưởng tiêu cực đến hệ sinh thái dưới đầm có thể gây cái chết tôm, cá (nguồn thu nhập chính của người dân) và ô nhiễm nguồn nước..
+
+Dự án điện Mặt Trời Sacom (xã Phước Minh, huyện Thuận Nam, tỉnh Ninh Thuận), công suất 50 MWp, được bắt đầu từ tháng 4 năm 2019. Tuy nhiên, trong quá trình xây dựng nhà máy, chủ đầu tư tự ý cho các phương tiện chở vật liệu chạy qua đất của người dân. Người dân địa phương đã chặn cung đường ngăn không cho các xe container đi qua. Ngoài ra, người dân còn yêu cầu chính quyền địa phương và chủ sở hữu nhà máy phải gặp chủ sở hữu đất để đàm phán kế hoạch bồi thường.
+
+== Năng lượng sinh khối ==
+
+=== Tiềm năng ===
+
+Là đất nước nông nghiệp, Việt Nam có nhiều tiềm năng phát triển năng lượng sinh khối. Một số dạng sinh khối phổ biến: gỗ năng lượng, phế thải – phụ phẩm từ cây trồng, chất thải chăn nuôi, rác thải ở đô thị và các chất thải hữu cơ khác. Nguồn năng lượng sinh khối có thể sử dụng bằng cách đốt trực tiếp, hoặc tạo thành viên nhiên liệu sinh khối.
+
+Kể từ khi Thủ tướng Chính phủ Việt Nam công bố Quyết định 24/2014/QĐ-TTg về cơ chế hỗ trợ phát triển dự án điện sinh khối, nhiều phụ phẩm nông nghiệp đã trở thành một nguồn nguyên liệu quan trọng, được tái sử dụng để tạo ra một nguồn năng lượng lớn. Như trong ngành mía đường, tiềm năng năng lượng sinh khối từ bã mía là rất lớn. Nếu sử dụng và khai thác nguồn bã mía một cách triệt để và hiệu quả, bã mía sẽ đóng góp sản lượng điện đáng kể, góp phần đảm bảo an ninh năng lượng quốc gia.
+
+=== Hiện trạng ===
+
+Tính đến tháng 11 năm 2018, đã có 38 nhà máy đường ở Việt Nam sản xuất điện và nhiệt với tổng công suất khoảng 352 MW. Trong số đó, chỉ có 4 nhà máy phát điện lên lưới với tổng công suất 82,51MW (22,4%), bán 15% điện năng được tạo ra từ sinh khối cho lưới điện với mức giá 5,8 US¢/kWh.
+
+Tính đến cuối năm 2018, thêm 10 nhà máy điện sinh khối với tổng công suất là 212 MW đã được đưa vào hoạt động.
+
+Đến tháng 2 năm 2020, tổng công suất điện sinh khối hiện đang vận hành vào khoảng 400 MW. Trong đó, đồng phát nhiệt điện tại các nhà máy mía đường vẫn chiếm một tỷ trọng lớn: 390 MW với 175 MW điện nối lưới. Phần còn lại khoảng 10 MW là từ các dự án điện rác.
+
+=== Quy hoạch điện quốc gia ===
+
+Quy hoạch điện 7 điều chỉnh đã chỉ ra kế hoạch phát triển điện sinh khối: đồng sản xuất trong các nhà máy đường, nhà máy chế biến thực phẩm, nhà máy thực phẩm; thực hiện đồng đốt sinh khối với than tại các nhà máy điện than; sản xuất điện từ chất thải rắn,... Tỷ lệ điện được sản xuất từ các nguồn năng lượng sinh khối đạt khoảng 1% vào năm 2020, khoảng 1,2% vào năm 2025 và khoảng 2,1% vào năm 2030.
+
+=== Một vài dự án nổi bật ===
+
+Một số ví dụ về các nhà máy điện sinh khối sử dụng bã mía:
+
+== Năng lượng chất thải rắn ==
+
+=== Tiềm năng ===
+
+Trung bình, gần 35.000 tấn chất thải rắn sinh hoạt đô thị và 34.000 tấn chất thải rắn sinh hoạt nông thôn được thải ra mỗi ngày. Ở các thành phố lớn như Hà Nội và Thành phố Hồ Chí Minh, có 7.000–8.000 tấn chất thải mỗi ngày. Lượng rác đang bị lãng phí do không được sử dụng đầy đủ để sản xuất năng lượng.
+
+=== Hiện trạng và dự án tiêu biểu ===
+
+Tính đến đầu năm 2019, Việt Nam có 9.03 MW điện năng từ rác thải đô thị. Trong đó, nhà máy điện Gò Cát, có công suất 2,43 MW, nhà máy xử lý chất thải rắn phát điện Cần Thơ có công suất 6MW và nhà máy xử lý chất thải công nghiệp sản xuất điện tại khu xử lý rác Nam Sơn có công suất 0,6MW.
+
+Ngày 18 tháng 2 năm 2019, dự án nhà máy điện Hậu Giang (ở tỉnh Hậu Giang) với công suất 12 MW, trong đó giai đoạn 1 (công suất 6 MW) sẽ được đưa vào hoạt động vào năm 2019 và giai đoạn 2 (công suất 6 MW) sẽ được vận hành vào năm 2024. Nhà máy này được kết nối với hệ thống điện quốc gia bằng điện áp 22 kV. Dự án xử lý chất thải Phú Thọ (tỉnh Phú Thọ) có công suất 18 MW, trong đó giai đoạn 1 (công suất 9 MW) sẽ được đưa vào vận hành vào năm 2020, giai đoạn 2 với công suất 9 MW sẽ được vận hành vào năm 2026. Nhà máy này được kết nối với hệ thống điện quốc gia bằng điện áp 110 kV.
+
+=== Quy hoạch điện quốc gia ===
+
+Theo Quyết định 2068/QĐ-TTg về Phê duyệt Chiến lược phát triển năng lượng tái tạo của Việt Nam đến năm 2030 với tầm nhìn đến năm 2050:
+
+== Năng lượng địa nhiệt ==
+
+Việt Nam có hơn 250 điểm nước nóng phân bố rộng khắp cả Việt Nam, trong đó có 43 điểm nóng (> 61 độ), điểm lộ thiên cao nhất (100 độ) nằm ở huyện Lệ Thủy, tỉnh Quảng Bình. Trong tổng số 164 nguồn địa nhiệt ở vùng trung du và núi phía bắc Việt Nam, có 18 nguồn có nhiệt độ bề mặt > 53 độ có thể sử dụng cho việc sản xuất điện. Tiềm năng địa nhiệt trên toàn Việt Nam ước tính khoảng 300 MW.
+
+== Năng lượng thủy triều ==
+
+Tại Việt Nam, tiềm năng năng lượng thủy triều không lớn, chỉ có thể đạt công suất 4GW tại các khu vực ven biển của đồng bằng sông Cửu Long. Tuy nhiên, khu vực tiềm năng lớn chưa được nghiên cứu là vùng nước ven biển Quảng Ninh–Hải Phòng, đặc biệt là Vịnh Hạ Long và Vịnh Bái Tử Long, nơi có tiềm năng thủy triều cao (> 4m) và có nhiều đảo làm đê chắn cho các bể chứa nước trong các vịnh và đầm hồ ven biển.
+
+Một nghiên cứu mang tên "Năng lượng tái tạo trên biển và định hướng phát triển tại Việt Nam" đã đưa ra thông tin thêm về tiềm năng thủy triều: tập trung ở phía bắc của Vịnh Bắc Bộ và các cửa sông ven biển Đông Nam. Tính toán lý thuyết tiềm năng cho thấy sức mạnh thủy triều có thể đạt 10 GW.
+
+== Chính sách hỗ trợ năng lượng tái tạo ==
+
+Để khuyến khích phát triển năng lượng tái tạo, chính phủ nước này đã định giá hỗ trợ mua điện từ các dự án năng lượng tái tạo (Giá FIT). Dưới đây là bản tóm tắt các cơ chế hỗ trợ hiện tại cho các loại năng lượng tái tạo:[cần dẫn nguồn]
+
+302–320 VND/kWh (lượng điện dư so với hợp đồng)
+
+2.158 VND/kW (giá công suất)
+
+7,09 US¢/kWh (điện Mặt Trời mặt đất)
+
+8,38 US¢/kWh (điện Mặt Trời áp mái)
+
+7,3458 US¢/kWh (Trung)

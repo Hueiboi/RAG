@@ -1,0 +1,193 @@
+PostgreSQL (/ˈpoʊstɡrɛskjuˌɛl/ ⓘ POHST-gres-kew-EL), còn được gọi là Postgres, là một hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) tự do và mã nguồn mở nhấn mạnh vào khả năng mở rộng và sự tuân thủ SQL. PostgreSQL cung cấp các giao tác với các đặc tính nguyên tử, nhất quán, cô lập , bền vững (ACID), các khung nhìn có thể cập nhật tự động, khung nhìn cụ thể hóa , thủ tục sự kiện , Khóa ngoại, và thủ tục lưu trữ . Nó được hỗ trợ trên tất cả các hệ điều hành chính, bao gồm Windows, Linux, MacOS, FreeBSD, và OpenBSD , và xử lý nhiều khối lượng công việc khác nhau từ các máy đơn lẻ đến các kho dữ liệu, hồ dữ liệu , hoặc các dịch vụ web có nhiều người dùng cùng lúc.
+
+Nhóm Phát triển Toàn cầu PostgreSQL chỉ tập trung vào việc phát triển một bộ máy cơ sở dữ liệu và các thành phần có liên quan chặt chẽ. Về mặt kỹ thuật, phần cốt lõi này là những gì cấu thành nên chính PostgreSQL. Tuy nhiên, có một cộng đồng nhà phát triển và hệ sinh thái rộng lớn cung cấp các bộ tính năng quan trọng khác mà theo truyền thống có thể được cung cấp bởi một nhà cung cấp phần mềm sở hữu độc quyền. Các bộ tính năng này bao gồm các tính năng của bộ máy cơ sở dữ liệu phục vụ mục đích đặc biệt, chẳng hạn như những tính năng cần thiết để hỗ trợ cơ sở dữ liệu không gian địa lý hoặc thời gian , hoặc các tính năng mô phỏng các sản phẩm cơ sở dữ liệu khác. Ngoài ra, các bên thứ ba cũng cung cấp nhiều tính năng giao diện người dùng và máy tính khác nhau, chẳng hạn như Giao diện đồ họa người dùng hoặc các bộ công cụ cân bằng tải và tính sẵn sàng cao . Mạng lưới hỗ trợ PostgreSQL rộng lớn của bên thứ ba gồm nhiều cá nhân, công ty, sản phẩm và dự án. Mặc dù không thuộc Nhóm Phát triển PostgreSQL, mạng lưới này đóng vai trò thiết yếu đối với việc áp dụng và sử dụng bộ máy cơ sở dữ liệu PostgreSQL, tạo nên một hệ sinh thái PostgreSQL rộng lớn.
+
+PostgreSQL ban đầu được đặt tên là POSTGRES, ám chỉ nguồn gốc của nó là hệ thống kế nhiệm của cơ sở dữ liệu Ingres được phát triển tại Đại học California, Berkeley. Năm 1996, dự án được đổi tên thành PostgreSQL để phản ánh sự hỗ trợ cho SQL. Sau một cuộc đánh giá vào năm 2007, nhóm phát triển đã quyết định giữ nguyên tên PostgreSQL và bí danh Postgres.
+
+== Lịch sử ==
+
+=== Ingres và POSTGRES của trường Đại học (1982–1994) ===
+
+PostgreSQL phát triển từ dự án Ingres tại Đại học California, Berkeley. Năm 1982, trưởng nhóm Ingres, Michael Stonebraker , đã rời Berkeley để tạo ra một phiên bản độc quyền của Ingres. Ông trở lại Berkeley vào năm 1985 và bắt đầu một dự án hậu Ingres nhằm giải quyết các vấn đề ngày càng trở nên rõ ràng trong đầu thập niên 1980 của những hệ thống cơ sở dữ liệu đương thời. Ông đã giành được Giải Turing vào năm 2014 cho dự án này cũng như các dự án khác, cùng với các kỹ thuật tiên phong trong đó.
+
+Dự án mới, mang tên POSTGRES, nhằm mục đích bổ sung số lượng tính năng vừa đủ để hỗ trợ hoàn toàn các kiểu dữ liệu. Các tính năng này bao gồm khả năng định nghĩa kiểu và mô tả đầy đủ các mối quan hệ – một điều được sử dụng rộng rãi, nhưng được duy trì hoàn toàn bởi người dùng. Trong POSTGRES, cơ sở dữ liệu hiểu các mối quan hệ và có thể truy xuất thông tin trong các bảng liên quan một cách tự nhiên bằng cách sử dụng các quy tắc. POSTGRES sử dụng nhiều ý tưởng của Ingres, nhưng không dùng mã nguồn của nó.
+
+Bắt đầu từ năm 1986, các bài báo đã được xuất bản để mô tả cơ sở của hệ thống, và một phiên bản nguyên mẫu đã được trình diễn tại Hội nghị SIGMOD của ACM năm 1988. Nhóm đã phát hành phiên bản 1 cho một số lượng nhỏ người dùng vào tháng 6 năm 1989, tiếp theo là phiên bản 2 vào tháng 6 năm 1990 với hệ thống quy tắc được viết lại. Phiên bản 3, được phát hành vào năm 1991, một lần nữa viết lại hệ thống quy tắc, đồng thời bổ sung hỗ trợ cho nhiều trình quản lý lưu trữ và một bộ máy truy vấn cải tiến. Đến năm 1993, số lượng người dùng bắt đầu làm dự án trở nên quá tải với các yêu cầu hỗ trợ và tính năng. Sau khi phát hành phiên bản 4.2 vào ngày 30 tháng 6 năm 1994 – chủ yếu là dọn dẹp mã nguồn – dự án đã kết thúc. Berkeley đã phát hành POSTGRES theo một biến thể của giấy phép MIT, cho phép các nhà phát triển khác sử dụng mã cho bất kỳ mục đích nào. Tại thời điểm đó, POSTGRES sử dụng một trình thông dịch ngôn ngữ truy vấn POSTQUEL chịu ảnh hưởng từ Ingres, trình thông dịch này có thể được sử dụng tương tác bằng một ứng dụng bảng điều khiển có tên là monitor.
+
+=== Postgres95 (1994–1996) ===
+
+Vào năm 1994, hai sinh viên cao học của Berkeley là Andrew Yu và Jolly Chen đã thay thế trình thông dịch ngôn ngữ truy vấn POSTQUEL bằng một trình thông dịch cho ngôn ngữ truy vấn SQL, tạo ra Postgres95. Bảng điều khiển monitor cũng được thay thế bằng psql. Yu và Chen đã công bố phiên bản đầu tiên (0.01) cho những người kiểm thử bản beta vào ngày 5 tháng 5 năm 1995. Phiên bản 1.0 của Postgres95 đã được công bố vào ngày 5 tháng 5 năm 1995, với một giấy phép rộng mở hơn, cho phép phần mềm có thể được sửa đổi tự do. Vào ngày 8 tháng 7 năm 1996, Marc Fournier tại Hub.org Networking Services đã cung cấp máy chủ phát triển phi đại học đầu tiên cho nỗ lực phát triển mã nguồn mở này. Với sự tham gia của Bruce Momjian và Vadim B. Mikheev, công việc ổn định mã nguồn kế thừa từ Berkeley đã bắt đầu.
+
+=== PostgreSQL (1996–nay) ===
+
+Năm 1996, dự án được đổi tên thành PostgreSQL để phản ánh nó hỗ trợ SQL. Dự án bắt đầu có trang web riêng là PostgreSQL.org vào ngày 22 tháng 10 năm 1996. Bản phát hành PostgreSQL đầu tiên đã tạo nên phiên bản 6.0 vào ngày 29 tháng 1 năm 1997. Kể từ đó, các nhà phát triển và tình nguyện viên trên khắp thế giới đã duy trì phần mềm này dưới danh nghĩa Nhóm Phát triển Toàn cầu PostgreSQL.
+
+Dự án tiếp tục cung cấp các bản phát hành theo Giấy phép PostgreSQL phần mềm tự do nguồn mở. Mã nguồn đến từ những đóng góp của các nhà cung cấp phần mềm độc quyền, công ty hỗ trợ, và các lập trình viên nguồn mở.
+
+Tính đến năm 2025, PostgreSQL đang ở phiên bản chính thứ 18, phiên bản này nổi bật trong việc triển khai I/O bất đồng bộ (AIO), cho phép người dùng cơ sở dữ liệu thực hiện các tác vụ vào ra tương tranh như đọc trước (readahead) và quét tuần tự (sequential scan).
+
+== Kiểm soát tương tranh nhiều phiên bản (MVCC) ==
+
+PostgreSQL quản lý sự tương tranh thông qua kiểm soát tương tranh nhiều phiên bản (MVCC). Cơ chế này cung cấp cho mỗi giao tác một "bản chụp" của cơ sở dữ liệu, cho phép thực hiện các thay đổi mà không ảnh hưởng đến các giao tác khác. Điều này loại bỏ phần lớn sự cần thiết của các khóa (lock) đọc và đảm bảo cơ sở dữ liệu duy trì các nguyên tắc ACID. PostgreSQL cung cấp bốn mức cô lập giao tác : Read Uncommitted, Read Committed, Repeatable Read và Serializable. Bởi vì PostgreSQL miễn nhiễm với lỗi đọc bẩn (dirty read), việc yêu cầu mức độ cô lập giao tác Read Uncommitted sẽ được thay thế bằng mức Read Committed. PostgreSQL hỗ trợ khả năng nối tiếp hoá hoàn toàn thông qua phương pháp cô lập bản chụp (SSI) có thể nối tiếp hoá. Cách triển khai MVCC của PostgreSQL dễ gặp các vấn đề về hiệu năng và cần phải tinh chỉnh khi chịu tải ghi nặng cập nhật các hàng hiện có.
+
+== Lưu trữ và sao chép ==
+
+=== Sao chép ===
+
+PostgreSQL bao gồm tính năng sao chép nhị phân tích hợp dựa trên việc chuyển các thay đổi (nhật ký ghi trước – WAL) đến các nút bản sao một cách bất đồng bộ. Hệ thống cũng có khả năng chạy các truy vấn chỉ đọc đối với các nút bản sao này. Điều này cho phép phân chia lưu lượng đọc giữa nhiều nút một cách hiệu quả. Các phần mềm sao chép trước đây, cho phép mở rộng khả năng đọc tương tự, thường dựa vào việc thêm các thủ tục sự kiện sao chép vào máy chủ, làm tăng mức tải.
+
+PostgreSQL được tích hợp sẵn tính năng sao chép đồng bộ. Cơ chế này đảm bảo rằng với mỗi giao tác ghi, máy chủ chính sẽ chờ đến khi có ít nhất một nút bản sao ghi xong dữ liệu vào nhật ký giao tác của nó. Khác với các hệ quản trị cơ sở dữ liệu khác, tính bền vững của một giao tác (dù là đồng bộ hay bất đồng bộ) trong PostgreSQL có thể được cấu hình linh hoạt ở mức cơ sở dữ liệu, mức người dùng, mức phiên làm việc hoặc thậm chí ở cấp độ của từng giao tác đơn lẻ. Sự linh hoạt này rất hữu ích, bởi vì không phải khối lượng công việc nào cũng đòi hỏi mức độ bảo đảm khắt khe như vậy. Việc áp dụng sao chép đồng bộ cho toàn bộ dữ liệu thường không được ưa chuộng, vì hệ thống sẽ bị giảm hiệu năng do phải chờ xác nhận từ các máy dự phòng đồng bộ.
+
+Máy chủ dự phòng có thể là đồng bộ hoặc bất đồng bộ. Có thể chỉ định các máy chủ dự phòng đồng bộ trong cấu hình nhằm xác định máy chủ nào là ứng cử viên cho quá trình sao chép đồng bộ. Máy chủ đầu tiên trong danh sách đang hoạt động truyền phát tích cực sẽ được sử dụng làm máy chủ đồng bộ hiện tại. Khi máy chủ này gặp sự cố, hệ thống sẽ chuyển đổi dự phòng sang máy tiếp theo trong danh sách.
+
+Tính năng sao chép của PostgreSQL có thể gây ra xung đột giữa máy chủ chính và máy chủ dự phòng. Điều này đặc biệt xảy ra bất cứ khi nào các bộ giá trị bị xóa sớm khỏi máy chủ dự phòng, mặc dù vẫn đang có các truy vấn truy cập vào chúng. Để giải quyết vấn đề này, PostgreSQL đi kèm với một cờ phản hồi. Cờ này cho phép máy chủ dự phòng chủ động thông báo cho máy chủ chính về những truy vấn đang diễn ra, nhằm giảm thiểu loại xung đột này.
+
+Tính năng sao chép nhiều chủ đồng bộ không có trong lõi của PostgreSQL. Postgres-XC, một dự án dựa trên PostgreSQL, cung cấp khả năng sao chép nhiều chủ đồng bộ có thể mở rộng. Nó được cấp phép theo cùng một giấy phép với PostgreSQL. Một dự án liên quan được gọi là Postgres-XL . Postgres-R là một bản phân nhánh khác. Sao chép hai chiều (bidirectional replication – BDR) là một hệ thống sao chép nhiều chủ bất đồng bộ dành cho PostgreSQL.
+
+Các công cụ như repmgr giúp việc quản lý các cụm sao chép trở nên dễ dàng hơn.
+
+Hiện có sẵn một số gói sao chép dựa trên thủ tục sự kiện bất đồng bộ. Những gói này vẫn hữu ích ngay cả sau khi đã mở rộng các khả năng cốt lõi, dành cho các tình huống mà việc sao chép nhị phân toàn bộ cụm cơ sở dữ liệu là không phù hợp:
+
+=== Chỉ mục ===
+
+PostgreSQL có hỗ trợ tích hợp cho các chỉ mục B-tree và Bảng băm thông thường, cùng với bốn phương pháp truy cập chỉ mục: cây tìm kiếm tổng quát hóa (GiST ), chỉ mục đảo ngược tổng quát hóa (GIN), GiST phân vùng không gian (SP-GiST) và chỉ mục phạm vi khối (BRIN). Ngoài ra, người dùng có thể tạo các phương pháp truy cập chỉ mục của riêng mình, mặc dù đây là một quá trình khá phức tạp. Các chỉ mục trong PostgreSQL cũng hỗ trợ những tính năng sau:
+
+=== Lược đồ ===
+
+Các lược đồ PostgreSQL là các không gian tên, cho phép các đối tượng cùng loại và cùng tên cùng tồn tại trong một cơ sở dữ liệu duy nhất. Không nên nhầm lẫn chúng với lược đồ cơ sở dữ liệu – một đặc tả mang tính trừu tượng, có cấu trúc và có tổ chức, định nghĩa cách thức dữ liệu của mỗi bảng liên kết với dữ liệu trong các bảng khác. Tất cả các đối tượng cơ sở dữ liệu PostgreSQL đều tồn tại trong một lược đồ, ngoại trừ một số đối tượng toàn cục chẳng hạn như các vai trò và không gian bảng . Chúng không thể được lồng vào nhau, các lược đồ không thể chứa các lược đồ khác. Hệ thống cấp phép kiểm soát quyền truy cập vào các lược đồ và nội dung của chúng. Theo mặc định, các cơ sở dữ liệu mới tạo chỉ có một lược đồ duy nhất được gọi là public, nhưng có thể thêm các lược đồ khác và lược đồ public không phải là bắt buộc.
+
+Cài đặt search_path xác định thứ tự mà PostgreSQL kiểm tra các lược đồ đối với các đối tượng không có đủ điều kiện (những đối tượng không có lược đồ làm tiền tố). Theo mặc định, nó được thiết đặt thành $user, public ($user tham chiếu đến người dùng cơ sở dữ liệu đang kết nối hiện tại). Giá trị mặc định này có thể được thiết lập ở cấp độ cơ sở dữ liệu hoặc vai trò. Tuy nhiên, vì nó là một tham số phiên, có thể thay đổi tự do (thậm chí nhiều lần) tham số này trong một phiên làm việc của máy khách, và chỉ ảnh hưởng đến phiên làm việc đó.
+
+Các lược đồ không tồn tại hoặc các lược đồ khác không thể truy cập bởi người dùng đã đăng nhập, vốn được liệt kê trong search_path, sẽ âm thầm bị bỏ qua trong quá trình tra cứu đối tượng. Các đối tượng mới sẽ được tạo trong bất kỳ lược đồ hợp lệ nào (có thể truy cập được) xuất hiện đầu tiên trong search_path.
+
+=== Kiểu dữ liệu ===
+
+PostgreSQL hỗ trợ nhiều kiểu dữ liệu nguyên bản khác nhau, bao gồm:
+
+Ngoài ra, người dùng có thể tạo các kiểu dữ liệu của riêng mình. Những kiểu dữ liệu này thường có thể được lập chỉ mục hoàn toàn thông qua cơ sở hạ tầng lập chỉ mục của PostgreSQL – GiST, GIN, SP-GiST. Các ví dụ bao gồm các kiểu dữ liệu của hệ thống thông tin địa lý (GIS) từ dự án PostGIS dành cho PostgreSQL.
+
+Ngoài ra còn có một kiểu dữ liệu được gọi là miền (domain), giống với như các kiểu dữ liệu khác nhưng có các ràng buộc tùy chọn do người tạo ra miền đó định nghĩa. Tức là, bất kỳ dữ liệu nào được nhập vào một cột sử dụng miền đó sẽ phải tuân thủ mọi ràng buộc của miền đó.
+
+Một kiểu dữ liệu đại diện cho một phạm vi dữ liệu có thể được sử dụng, và chúng được gọi là các kiểu phạm vi (range type). Chúng có thể là các phạm vi rời rạc (ví dụ: tất cả các giá trị số nguyên từ 1 đến 10) hoặc các phạm vi liên tục (ví dụ: bất kỳ thời điểm nào từ 10:00 sáng đến 11:00 sáng). Các kiểu phạm vi tích hợp sẵn bao gồm phạm vi số nguyên, số nguyên lớn, số thập phân, dấu thời gian (có và không có múi giờ) và ngày tháng.
+
+Có thể tạo ra các kiểu phạm vi tùy chỉnh để có các loại phạm vi mới, chẳng hạn như phạm vi địa chỉ IP sử dụng kiểu inet làm cơ sở, hoặc phạm vi số thực phẩy động sử dụng kiểu dữ liệu float làm cơ sở. Các kiểu phạm vi hỗ trợ ranh giới phạm vi bao hàm và loại trừ, lần lượt sử dụng các ký tự [] và (). (ví dụ, nửa khoảng [4,9) gồm các số 4, 5, 6, 7 và 8.) Các kiểu phạm vi cũng tương thích với các toán tử hiện có được sử dụng để kiểm tra sự chồng chéo, sự bao hàm, nằm bên phải của, v.v.
+
+=== Đối tượng do người dùng định nghĩa ===
+
+Hầu hết tất cả các loại đối tượng mới bên trong cơ sở dữ liệu đều có thể được tạo, bao gồm:
+
+=== Kế thừa ===
+
+Các bảng có thể được thiết lập để kế thừa các đặc điểm của chúng từ một bảng cha. Dữ liệu trong các bảng con sẽ có vẻ như tồn tại trong các bảng cha, trừ khi dữ liệu được chọn từ bảng cha bằng cách sử dụng từ khóa ONLY, ví dụ: SELECT * FROM ONLY parent_table;. Việc thêm một cột vào bảng cha sẽ khiến cột đó xuất hiện trong bảng con.
+
+Sự kế thừa có thể dùng để thực hiện phân vùng bảng, sử dụng các thủ tục sự kiện hoặc các quy tắc để hướng các lệnh chèn vào bảng cha đến đúng các bảng con thích hợp.
+
+Tính năng này không được hỗ trợ hoàn toàn. Cụ thể, các ràng buộc bảng hiện tại không thể kế thừa được. Tất cả các ràng buộc kiểm tra và ràng buộc not-null (không rỗng) trên bảng cha sẽ tự động được các bảng con kế thừa. Các loại ràng buộc khác (ràng buộc duy nhất, khóa chính và khóa ngoại) không được kế thừa.
+
+Sự kế thừa cung cấp một cách để ánh xạ các đặc điểm của cấu trúc phân cấp tổng quát hóa, vốn được mô tả trong các mô hình thực thể – liên kết (ERD), ánh xạ trực tiếp vào cơ sở dữ liệu PostgreSQL.
+
+=== Các tính năng lưu trữ khác ===
+
+== Kiểm soát và kết nối ==
+
+=== Trình bọc dữ liệu ngoại ===
+
+PostgreSQL có thể liên kết với các hệ thống khác để truy xuất dữ liệu thông qua các trình bọc dữ liệu ngoại (FDW). Chúng có thể mang định dạng của bất kỳ nguồn dữ liệu nào, chẳng hạn như hệ thống tệp, một hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) khác hoặc một dịch vụ web. Điều này có nghĩa là các truy vấn cơ sở dữ liệu thông thường có thể sử dụng những nguồn dữ liệu này giống như các bảng thông thường, và thậm chí có thể kết hợp nhiều nguồn dữ liệu lại với nhau.
+
+=== Giao diện ===
+
+PostgreSQL hỗ trợ một giao thức truyền thông nhị phân cho phép các ứng dụng kết nối với máy chủ cơ sở dữ liệu. Giao thức này được quản lý theo phiên bản (hiện tại là 3.0, kể từ PostgreSQL 7.4) và có một bản đặc tả chi tiết.
+
+Bản triển khai máy khách chính thức của giao thức truyền thông này là một giao diện lập trình ứng dụng bằng ngôn ngữ C, mang tên libpq. Ngoài ra, công cụ chính thức ECPG cho phép nhúng lệnh SQL vào mã C. Cả hai đều là một phần của bản phân phối PostgreSQL tiêu chuẩn.
+
+Nhiều ngôn ngữ lập trình có sẵn các thư viện của bên thứ ba dành cho việc kết nối tới PostgreSQL, bao gồm C++, Java, Julia , Python, Node.js, Go, và Rust.
+
+=== Ngôn ngữ thủ tục ===
+
+Các ngôn ngữ thủ tục cho phép các nhà phát triển mở rộng cơ sở dữ liệu với các chương trình con (hàm) tùy chỉnh, thường được gọi là các thủ tục lưu trữ . Các hàm này có thể được sử dụng để xây dựng các thủ tục sự kiện (hàm được gọi khi sửa đổi một số dữ liệu nhất định), các kiểu dữ liệu tùy chỉnh và các hàm tổng hợp . Các ngôn ngữ thủ tục cũng có thể được gọi mà không cần định nghĩa hàm, thông qua lệnh DO ở cấp độ SQL.
+
+Các ngôn ngữ được chia thành hai nhóm: Các thủ tục được viết bằng các ngôn ngữ an toàn sẽ được đặt trong một môi trường có kiểm soát và có thể được bất kỳ người dùng nào tạo và sử dụng một cách an toàn. Các thủ tục được viết bằng ngôn ngữ không an toàn chỉ có thể được tạo bởi các siêu người dùng, bởi vì chúng cho phép vượt qua các hạn chế bảo mật của cơ sở dữ liệu, nhưng cũng có thể truy cập các nguồn bên ngoài cơ sở dữ liệu. Một số ngôn ngữ như Perl cung cấp cả phiên bản an toàn và không an toàn.
+
+PostgreSQL có hỗ trợ tích hợp sẵn cho ba ngôn ngữ thủ tục:
+
+Ngoài ra, PostgreSQL cho phép nạp các ngôn ngữ thủ tục vào cơ sở dữ liệu thông qua các phần mở rộng. PostgreSQL hỗ trợ Perl, Tcl, và Python nhờ ba phần mở rộng ngôn ngữ đi kèm. Đối với Python, phiên bản Python 3 hiện tại được sử dụng, trong khi phiên bản Python 2 bị ngừng cung cấp sẽ không còn được hỗ trợ kể từ PostgreSQL 15. Cả hai phiên bản này từng được hỗ trợ trước đây với mặc định là Python 2, trong khi đó các phiên bản cũ và mới không thể được sử dụng trong cùng một phiên. Các dự án bên ngoài cung cấp hỗ trợ cho nhiều ngôn ngữ khác, bao gồm PL/Java, JavaScript (PL/V8), PL/Julia , PL/R, PL/Ruby và các ngôn ngữ khác.
+
+=== Thủ tục sự kiện ===
+
+Các thủ tục sự kiện (trigger) là các sự kiện được kích hoạt bởi hành động của các câu lệnh ngôn ngữ thao tác dữ liệu (DML) trong SQL. Ví dụ, một câu lệnh INSERT có thể kích hoạt một thủ tục sự kiện để kiểm tra xem các giá trị của câu lệnh có hợp lệ hay không. Hầu hết các thủ tục sự kiện chỉ được kích hoạt bởi các câu lệnh INSERT hoặc UPDATE.
+
+Các thủ tục sự kiện được hỗ trợ hoàn toàn và có thể được gắn vào các bảng. Thủ tục sự kiện có thể áp dụng cho từng cột và có điều kiện, trong đó các thủ tục sự kiện UPDATE có thể nhắm mục tiêu vào các cột cụ thể của một bảng, và thủ tục sự kiện có thể được yêu cầu thực thi theo một tập hợp các điều kiện được chỉ định trong mệnh đề WHERE của nó. Thủ tục sự kiện có thể được gắn vào các khung nhìn bằng cách sử dụng điều kiện INSTEAD OF. Nhiều thủ tục sự kiện được kích hoạt theo thứ tự bảng chữ cái. Ngoài việc gọi các hàm được viết bằng ngôn ngữ gốc PL/pgSQL, thủ tục sự kiện cũng có thể gọi các hàm được viết bằng những ngôn ngữ khác như PL/Python hoặc PL/Perl.
+
+=== Thông báo bất đồng bộ ===
+
+PostgreSQL cung cấp một hệ thống thông điệp bất đồng bộ được truy cập thông qua các lệnh NOTIFY, LISTEN và UNLISTEN. Một phiên có thể phát ra lệnh NOTIFY, cùng với kênh do người dùng chỉ định và dữ liệu thực (payload) tùy chọn, để đánh dấu một sự kiện cụ thể đang xảy ra. Các phiên khác có khả năng phát hiện những sự kiện này bằng cách phát ra lệnh LISTEN, cho phép lắng nghe một kênh cụ thể. Chức năng này có thể được sử dụng cho nhiều mục đích khác nhau, chẳng hạn như cho các phiên khác biết khi nào một bảng đã được cập nhật, hoặc cho các ứng dụng riêng biệt phát hiện khi nào một hành động cụ thể đã được thực hiện. Một hệ thống như vậy sẽ ngăn ngừa việc các ứng dụng phải thực hiện thăm dò liên tục để xem liệu có bất kỳ điều gì đã thay đổi hay chưa, đồng thời làm giảm chi phí hoạt động không cần thiết. Các thông báo hoàn toàn có tính giao tác, tức là các thông điệp sẽ không được gửi đi cho đến khi giao tác thực hiện việc gửi chúng được cam kết. Điều này loại bỏ vấn đề gửi thông điệp cho một hành động đang được thực hiện nhưng sau đó lại bị huỷ lùi (rollback).
+
+Nhiều trình kết nối cho PostgreSQL hỗ trợ hệ thống thông báo này (bao gồm libpq, JDBC, Npgsql, psycopg và node.js) nên nó có thể được sử dụng bởi các ứng dụng bên ngoài.
+
+PostgreSQL có thể hoạt động như một máy chủ "pub/sub" ổn định, hiệu quả hoặc máy chủ công việc bằng cách kết hợp LISTEN với FOR UPDATE SKIP LOCKED.
+
+=== Quy tắc ===
+
+Các quy tắc cho phép viết lại "cây truy vấn" của một truy vấn đang đi tới; chúng là một ngôn ngữ vĩ lệnh được gọi tự động dành cho SQL. "Quy tắc viết lại truy vấn" được gắn với một bảng/lớp và "viết lại" DML đang đi tới (select, insert, update, và/hoặc delete) thành một hoặc nhiều truy vấn có thể thay thế câu lệnh DML ban đầu hoặc thực thi bổ sung thêm vào đó. Quá trình viết lại truy vấn diễn ra sau khi phân tích cú pháp câu lệnh DML và trước khi lập kế hoạch truy vấn.
+
+Về cơ bản, hầu hết các chức năng của quy tắc sau này đều có thể thực hiện được thông qua các loại thủ tục sự kiện mới. Trong thực tế, người ta thường ưu tiên sử dụng thủ tục sự kiện hơn là các quy tắc. Lý do là vì việc dự đoán, theo dõi luồng hoạt động và các tương tác của thủ tục sự kiện diễn ra dễ dàng và rõ ràng hơn rất nhiều so với việc sử dụng các quy tắc tương đương.
+
+=== Các tính năng truy vấn khác ===
+
+=== Mô hình tương tranh ===
+
+Máy chủ PostgreSQL hoạt động dựa trên tiến trình (không phải dạng luồng) và sử dụng một tiến trình hệ điều hành cho mỗi phiên cơ sở dữ liệu. Nhiều phiên sẽ được hệ điều hành tự động phân bổ trên tất cả các CPU khả dụng. Nhiều loại truy vấn cũng có thể được song song hóa qua nhiều tiến trình chạy việc nền (background worker process), tận dụng lợi thế của nhiều CPU hoặc lõi. Các ứng dụng khách có thể sử dụng các luồng và tạo nhiều kết nối cơ sở dữ liệu từ mỗi luồng.
+
+== Bảo mật ==
+
+PostgreSQL quản lý bảo mật nội bộ dựa trên từng vai trò . Một vai trò thường được coi là một người dùng (một vai trò có thể đăng nhập) hoặc một nhóm (một vai trò mà các vai trò khác là thành viên). Các quyền có thể được cấp hoặc thu hồi trên bất kỳ đối tượng nào cho đến cấp độ cột, và có thể cho phép hoặc ngăn chặn việc hiển thị, tạo, sửa đổi, xóa các đối tượng ở cấp độ cơ sở dữ liệu, lược đồ, bảng và hàng.
+
+Tính năng SECURITY LABEL của PostgreSQL (phần mở rộng cho các tiêu chuẩn SQL) cho phép bổ sung bảo mật; đi kèm với một mô đun có thể tải để hỗ trợ điều khiển truy cập bắt buộc (MAC) dựa trên nhãn, theo chính sách bảo mật của SE Linux (SELinux). PostgreSQL hỗ trợ riêng một lượng lớn các cơ chế xác thực bên ngoài, bao gồm:
+
+Các phương thức GSSAPI, SSPI, Kerberos, peer, ident và chứng chỉ cũng có thể sử dụng một tệp "ánh xạ" cụ thể để liệt kê những người dùng khớp với hệ thống xác thực đó được phép kết nối với tư cách là một người dùng cơ sở dữ liệu cụ thể.
+
+Các phương thức này được chỉ định trong tệp cấu hình xác thực dựa trên máy chủ của cụm (pg_hba.conf), nhằm xác định những kết nối nào được cho phép. Điều này cho phép kiểm soát người dùng nào có thể kết nối với cơ sở dữ liệu nào, nơi họ có thể kết nối từ đó (địa chỉ IP, dải địa chỉ IP, domain socket), hệ thống xác thực nào sẽ được thực thi và liệu kết nối có phải sử dụng Transport Layer Security (TLS) hay không.
+
+== Tuân thủ tiêu chuẩn ==
+
+PostgreSQL tuyên bố tuân thủ mức độ cao, nhưng không hoàn toàn, với tiêu chuẩn SQL mới nhất ("tính đến bản phát hành phiên bản 17 vào tháng 9 năm 2024, PostgreSQL tuân thủ ít nhất 170 trong số 177 tính năng bắt buộc đối với Sự tuân thủ Cốt lõi của SQL:2023 ", và không có cơ sở dữ liệu nào khác hoàn toàn tuân thủ cả). Một ngoại lệ là việc xử lý các định danh không được đặt trong dấu ngoặc kép như tên bảng hoặc tên cột. Trong PostgreSQL, chúng được chuyển thành các ký tự viết thường trong khi tiêu chuẩn quy định rằng các định danh không có dấu ngoặc kép phải được chuyển thành chữ hoa. Do đó, Foo sẽ tương đương với FOO chứ không phải foo theo tiêu chuẩn. Các thiếu sót khác liên quan đến sự vắng mặt của các bảng thời gian cho phép tự động ghi nhật ký các phiên bản hàng trong quá trình của giao tác với khả năng duyệt theo thời gian (vị từ FOR SYSTEM TIME),[cần dẫn nguồn] mặc dù có sẵn các phần mở rộng của bên thứ ba tương đối tuân thủ SQL.
+
+== Kiểm chuẩn và hiệu năng ==
+
+Nhiều nghiên cứu hiệu năng không chính thức về PostgreSQL đã được thực hiện. Các cải tiến hiệu năng nhằm cải thiện khả năng mở rộng bắt đầu mạnh mẽ với phiên bản 8.1. Các bài kiểm chuẩn đơn giản giữa phiên bản 8.0 và phiên bản 8.4 cho thấy phiên bản sau nhanh hơn hơn mười lần trên khối lượng công việc chỉ đọc và nhanh hơn ít nhất 7,5 lần trên khối lượng công việc cả đọc và ghi.
+
+Bài kiểm chuẩn đầu tiên theo tiêu chuẩn ngành và được đồng cấp xác nhận đã hoàn thành vào tháng 6 năm 2007, sử dụng Sun Java System Application Server (phiên bản độc quyền của GlassFish ) 9.0 Platform Edition, máy chủ Sun Fire dựa trên nền tảng UltraSPARC T1 và PostgreSQL 8.2. Kết quả 778.14 SPECjAppServer2004 JOPS@Standard này có lợi thế so với kết quả 874 JOPS@Standard của Oracle 10 trên hệ thống HP-UX dựa trên nền tảng Itanium.
+
+Vào tháng 8 năm 2007, Sun đã nộp một điểm số kiểm chuẩn cải thiện là 813.73 SPECjAppServer2004 JOPS@Standard. Với việc hệ thống đang được kiểm thử có giá giảm, tỷ lệ giá/hiệu năng đã cải thiện từ $84.98/JOPS xuống $70.57/JOPS.
+
+Cấu hình mặc định của PostgreSQL chỉ sử dụng một lượng nhỏ bộ nhớ chuyên dụng cho các mục đích thiết yếu về hiệu năng như bộ nhớ đệm các khối cơ sở dữ liệu và sắp xếp. Hạn chế này chủ yếu là do các hệ điều hành cũ yêu cầu phải thay đổi nhân (kernel) để cho phép cấp phát các khối bộ nhớ dùng chung lớn. PostgreSQL.org cung cấp các lời khuyên về thực tiễn hiệu năng cơ bản được khuyến nghị trên một Wiki.
+
+Tháng 4 năm 2012, Robert Haas của EnterpriseDB đã trình diễn khả năng mở rộng CPU tuyến tính của PostgreSQL 9.2 sử dụng một máy chủ có 64 lõi.
+
+Matloob Khushi đã thực hiện các bài kiểm chuẩn giữa PostgreSQL 9.0 và MySQL 5.6.15 về khả năng xử lý dữ liệu bộ gen. Trong phân tích hiệu năng của mình, ông nhận thấy PostgreSQL trích xuất các vùng bộ gen bị chồng lấp nhanh hơn tám lần so với MySQL bằng cách sử dụng hai bộ dữ liệu, mỗi bộ 80.000, tạo thành các vùng DNA người ngẫu nhiên. Khả năng chèn và tải dữ liệu lên trong PostgreSQL cũng tốt hơn, mặc dù khả năng tìm kiếm chung của cả hai cơ sở dữ liệu gần như tương đương nhau.
+
+Vào tháng 10 năm 2024, một bài kiểm chuẩn của Sanket Vilas Salunke và Abdelkader Ouda đã đánh giá hiệu năng giữa PostgreSQL và MySQL trong bối cảnh các hệ thống xác thực liên tục đòi hỏi xử lý lượng lớn dữ liệu sinh trắc học hành vi. Kết quả cho thấy PostgreSQL vượt trội đáng kể ở các thao tác chọn (SELECT), nhanh hơn khoảng 13 lần so với MySQL khi truy xuất 1 triệu bản ghi. Đặc biệt, trong các thử nghiệm phức tạp đòi hỏi thực hiện truy vấn chọn đồng thời với quá trình chèn (INSERT) dữ liệu, PostgreSQL vẫn duy trì hiệu năng ổn định, trong khi MySQL bị suy giảm đáng kể.
+
+== Nền tảng ==
+
+PostgreSQL có sẵn trên các hệ điều hành sau: Linux (tất cả các bản phân phối gần đây), các trình cài đặt X86-64 và AArch64 cho cấu trúc 64-bit có sẵn và được kiểm thử trên MacOS phiên bản 10.14 trở lên, Windows (với các trình cài đặt có sẵn và được kiểm thử trên Windows Server 2022 64-bit và 2016), FreeBSD, OpenBSD , NetBSD , DragonFlyBSD , và cả những nền tảng không có tệp thực thi nhị phân chính thức (mặc dù có thể có các bản không chính thức), Solaris, và illumos . PostgreSQL có thể hoạt động trên các kiến trúc tập lệnh (và hệ điều hành) sau đây: X86-64 64-bit và X86 32-bit trên Windows và các hệ điều hành khác; những kiến trúc sau được hỗ trợ trên các hệ điều hành không phải Windows: AArch64 64-bit và ARM 32-bit cũ hơn, bao gồm các kiến trúc cũ như họ kiến trúc ARM trong Raspberry Pi), RISC-V, z/Architecture , S/390 , PowerPC (bao gồm Power ISA 64-bit), SPARC (cũng 64-bit), MIPS và PA-RISC . Nó cũng có thể hoạt động trên một số nền tảng khác (mặc dù chưa được kiểm thử trong nhiều năm, tức là cho các phiên bản mới nhất).
+
+== Quản trị cơ sở dữ liệu ==
+
+Các giao diện người dùng (front-end) và công cụ mã nguồn mở để quản trị PostgreSQL bao gồm:
+
+Một số công ty cung cấp các công cụ độc quyền cho PostgreSQL. Chúng thường bao gồm một lõi dùng chung được điều chỉnh cho nhiều sản phẩm cơ sở dữ liệu cụ thể khác nhau. Những công cụ này hầu hết chia sẻ các tính năng quản trị với các công cụ mã nguồn mở nhưng cung cấp các cải tiến trong mô hình hóa dữ liệu, nhập, xuất hoặc báo cáo.
+
+== Sử dụng ==
+
+Các tổ chức và sản phẩm nổi bật sau đây sử dụng PostgreSQL làm cơ sở dữ liệu chính:
+
+== Các bản triển khai dịch vụ ==
+
+Một số nhà cung cấp nổi bật sau đây cung cấp PostgreSQL dưới dạng phần mềm dạng dịch vụ:
+
+== Lịch sử phát hành ==
+
+== Hệ sinh thái và các bản phái sinh ==
+
+Nhờ giấy phép mã nguồn mở cho phép sự tự do và kiến trúc có thể mở rộng, một hệ sinh thái rộng lớn đã phát triển xung quanh PostgreSQL. Điều này bao gồm nhiều công ty cung cấp dịch vụ lưu trữ và hỗ trợ chuyên dụng, cũng như một số bản phân nhánh (fork) và cơ sở dữ liệu phái sinh đã điều chỉnh PostgreSQL cho các khối lượng công việc cụ thể.

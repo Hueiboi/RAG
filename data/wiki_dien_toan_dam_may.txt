@@ -1,0 +1,31 @@
+Điện toán đám mây (tiếng Anh: cloud computing), còn gọi là điện toán máy chủ ảo, là mô hình điện toán sử dụng công nghệ máy tính và phát triển dựa vào mạng Internet. Thuật ngữ "đám mây" ở đây là lối nói ẩn dụ chỉ mạng Internet (dựa vào cách được bố trí của nó trong sơ đồ mạng máy tính) và như sự liên tưởng về độ phức tạp của các cơ sở hạ tầng chứa trong nó. Ở mô hình điện toán này, mọi khả năng liên quan đến công nghệ thông tin đều được cung cấp dưới dạng các "dịch vụ", cho phép người sử dụng truy cập các dịch vụ công nghệ từ một nhà cung cấp nào đó "trong đám mây" mà không cần phải có các kiến thức, kinh nghiệm về công nghệ đó, cũng như không cần quan tâm đến các cơ sở hạ tầng phục vụ công nghệ đó. Theo tổ chức IEEE: "Nó là hình mẫu trong đó thông tin được lưu trữ thường trực tại các máy chủ trên Internet và chỉ được lưu trữ tạm thời ở các máy khách, bao gồm máy tính cá nhân, trung tâm giải trí, máy tính trong doanh nghiệp, các phương tiện máy tính cầm tay,...". Điện toán đám mây là khái niệm tổng thể bao gồm cả các khái niệm như phần mềm dịch vụ, Web 2.0 và các vấn đề khác xuất hiện gần đây, các xu hướng công nghệ nổi bật, trong đó đề tài chủ yếu của nó là vấn đề dựa vào Internet để đáp ứng những nhu cầu điện toán của người dùng. Ví dụ, dịch vụ Google AppEngine cung cấp những ứng dụng kinh doanh trực tuyến thông thường, có thể truy nhập từ một trình duyệt web, còn các phần mềm và dữ liệu đều được lưu trữ trên các máy chủ.
+
+Điện toán đám mây là mô hình cung cấp tài nguyên lưu trữ của máy tính cho người dùng tùy theo mục đích sử dụng thông qua kết nối Internet. Nguồn tài nguyên này bao gồm rất nhiều thứ liên quan đến điện toán và máy tính, ví dụ như: phần mềm, dịch vụ, phần cứng,… và sẽ nằm tại các máy chủ ảo (đám mây) trên mạng. Người dùng có thể truy cập vào bất cứ tài nguyên nào trên đám mây. Vào bất kỳ thời điểm nào và ở bất kỳ đâu, chỉ cần kết nối với hệ thống internet.
+
+== Lịch sử ==
+
+Thuật ngữ điện toán đám mây xuất hiện bắt nguồn từ ứng dụng điện toán lưới (grid computing) trong thập niên 1960, tiếp theo là điện toán theo nhu cầu (utility computing) và phần mềm dịch vụ (SaaS).
+
+Điện toán lưới đặt trọng tâm vào việc di chuyển một tải công việc (workload) đến địa điểm của các tài nguyên điện toán cần thiết để sử dụng. Một lưới là một nhóm máy chủ mà trên đó nhiệm vụ lớn được chia thành những tác vụ nhỏ để chạy song song, được xem là một máy chủ ảo.
+
+Với điện toán đám mây, các tài nguyên điện toán như máy chủ có thể được định hình động hoặc cắt nhỏ từ cơ sở hạ tầng phần cứng nền và trở nên sẵn sàng thực hiện nhiệm vụ, hỗ trợ những môi trường không phải là điện toán lưới như Web ba lớp chạy các ứng dụng truyền thống hay ứng dụng Web 2.0.
+
+== Tóm tắt đặc điểm ==
+
+=== Các đặc tính ===
+
+Như vậy, trước đây để có thể triển khai một ứng dụng (ví dụ một trang Web), bạn phải đi mua/thuê một hay nhiều máy chủ (server), sau đó đặt máy chủ tại các trung tâm dữ liệu (data center) thì nay điện toán đám mây cho phép bạn giản lược quá trình mua/thuê đi. Bạn chỉ cần nêu ra yêu cầu của mình, hệ thống sẽ tự động gom nhặt các tài nguyên rỗi (free) để đáp ứng yêu cầu của bạn. Chính vì vậy, có thể kể đến một vài lợi ích cơ bản của điện toán đám mây như sau:
+
+=== Các mô hình dịch vụ ===
+
+Các nhà cung cấp dịch vụ điện toán đám mây cung cấp các dịch vụ của họ theo ba mô hình cơ bản:
+
+Trong đó IaaS là cơ bản nhất và mỗi mô hình cao hơn tóm tắt từ các chi tiết của những mô hình thấp hơn. Trong năm 2012, mạng lưới như một dịch vụ (NaaS - Network as a Service) và giao tiếp như một dịch vụ (CaaS - Communications as a Service) đã chính thức thêm vào bởi Hiệp hội viễn thông quốc tế (International Telecommunication Union) như là một phần của các mô hình điện toán đám mây cơ bản, các loại hình dịch vụ được công nhận của hệ sinh thái đám mây viễn thông.[cần dẫn nguồn]
+
+Cùng với sự phát triển công nghệ cũng như nhu cầu của người dùng, một số loại dịch vụ điện toán đám mây mới được cung cấp như Trí tuệ nhân tạo như một dịch vụ (AIaaS), Desktop as a Service (DaaS), IT as a service (ITaaS) hay Ransomware as a service (RaaS) nhằm cung cấp các dịch điện toán đám mây cho các ứng dụng đặc thù.
+
+=== Các mô hình triển khai ===
+
+=== Các công ty ===
+
+Điện toán đám mây đang được phát triển và cung cấp bởi nhiều nhà cung cấp, trong đó có Amazon, Google, EXA, và Salesforce cũng như những nhà cung cấp truyền thống như Sun Microsystems, HP, IBM, Intel, Cisco và Microsoft. Nó đang được nhiều người dùng cá nhân cho đến những công ty lớn như General Electric, L'Oréal, Procter & Gamble và Valeo chấp nhận và sử dụng.

@@ -69,8 +69,6 @@
 - [x] Tích hợp LangSmith Observability — `@traceable` trên endpoint `POST /api/chat` — `src/api/routes/chat.py`
 - [x] Trace gắn tag/metadata theo user qua `chain.with_config()` (không mutate chain đang `lru_cache`) — `src/api/routes/chat.py`
 - [x] `load_dotenv()` trước mọi import vì LangSmith chỉ đọc `os.environ`, không đọc `Settings` — `src/main.py`
-- [x] Khai báo `langsmith_*` trong `Settings` (pydantic-settings chặn biến lạ trong `.env`) — `src/config.py`
-- [x] Bump `langsmith` 0.9.0 → 0.14.0 — `requirements.txt`
 - [x] Thêm biến `LANGSMITH_*` vào `.env.example` — `.env.example`
 - [x] Verify: chain `POST /api/chat` → `RunnablePassthrough` → `ChatPromptTemplate` → `ChatGroq`, tag `user:*` lan xuống các run con (project `personal-rag-chatbot`)
 
@@ -81,7 +79,9 @@
 - [x] Sửa `UnboundLocalError` trong `load_or_build` khi gọi thiếu tham số — `src/ingestion.py`
 - [x] Gom ghi chú kỹ thuật vào `docs/`, gộp `FAISS_SCORE_NOTE.md` vào `docs/retrieval-scoring.md` — `docs/`
 
-#### Tiếp theo
-- Gom ~10–15 tài liệu thật (~100 chunk), upload qua app rồi ingest (ingest đọc từ Supabase Storage, không đọc từ `data/`).
-- Chạy baseline đầu tiên (`--label baseline`) ghi vào `data/eval_log.md`, kèm sửa `score_threshold` (đang `0.0` = no-op).
-- Sau khi có số baseline mới bắt đầu hybrid search.
+### 27/10/2026
+#### Note
+> OpenCode đã thực hiện đo đạc phân bố điểm số tương đồng (Cosine Similarity Scores) của Top-5 chunks trả về từ PGVector cho tập câu hỏi thử nghiệm.    
+- score_threshold là "màng lọc rác", không phải "đòn bẩy hiệu năng": Điểm của các chunk chứa đáp án đúng thực tế rơi vào khoảng **0.48 - 0.50**. Nếu nâng ngưỡng lên **0.55**, hệ thống sẽ chặn nhầm đáp án đúng; còn đặt **0.3** thì toàn bộ kết quả hợp lệ đều đi qua.
+- Đổi từ **0.0 -> 0.3** chỉ để chuẩn hóa logic code: Trong code, **0.0** tương đương với không lọc gì (no-op). Sửa thành **0.3** giúp chặn các câu hỏi hoàn toàn vô nghĩa/lạc đề, chứ không làm tăng chỉ số **Recall@5** trên tập dữ liệu hiện tại.
+#### Progress

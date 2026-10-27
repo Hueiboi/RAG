@@ -34,5 +34,65 @@
     "query": "Mục tiêu dài hạn của việc nâng cấp hệ thống giao thông thông minh và đường cao tốc là gì?",
     "ground_truth": "Nhằm cải thiện khả năng di chuyển, giảm ùn tắc và hỗ trợ phát triển kinh tế bền vững.",
     "context_anchor": "aim to improve mobility, reduce congestion, and support sustainable economic development."
+  },
+  {
+    "id": 7,
+    "query": "Nhà Trần cai trị nước Đại Việt trong khoảng thời gian nào?",
+    "ground_truth": "Từ năm 1226 đến năm 1400.",
+    "context_anchor": "là một triều đại quân chủ cai trị nước Đại Việt từ năm 1226 đến năm 1400"
+  },
+  {
+    "id": 8,
+    "query": "Vì sao hiện tượng nhiều thế hệ cùng sống chung trong một ngôi nhà lại phổ biến ở Hà Nội?",
+    "ground_truth": "Do truyền thống văn hóa và những khó khăn về chỗ ở; Hà Nội là một trong những thành phố đắt đỏ nhất thế giới, giá bất động sản cao.",
+    "context_anchor": "Hà Nội lại là một trong những thành phố đắt đỏ nhất thế giới và giá bất động sản không thua kém các quốc gia giàu có"
+  },
+  {
+    "id": 9,
+    "query": "Tuyến đường cao tốc Bắc – Nam phía Đông bắt đầu và kết thúc ở đâu?",
+    "ground_truth": "Bắt đầu từ Lạng Sơn và kết thúc tại Cà Mau.",
+    "context_anchor": "Đường cao tốc bắt đầu từ Lạng Sơn và kết thúc tại Cà Mau"
+  },
+  {
+    "id": 10,
+    "query": "Dự án đường cao tốc khởi công ngày 1 tháng 1 năm 2023 đã được thông xe kỹ thuật vào ngày nào?",
+    "ground_truth": "Ngày 19 tháng 4 năm 2025; chính thức đưa vào khai thác tuyến chính từ ngày 28 tháng 4 năm 2025.",
+    "context_anchor": "Dự án được khởi công vào ngày 1 tháng 1 năm 2023 và chính thức thông xe kỹ thuật vào ngày 19 tháng 4 năm 2025"
+  },
+  {
+    "id": 11,
+    "query": "Hệ thống đường sắt đô thị Hà Nội khi hoàn thiện gồm bao nhiêu tuyến và tổng chiều dài bao nhiêu km?",
+    "ground_truth": "10 tuyến đường sắt đô thị dài khoảng 417,8 km và 3 tuyến tàu điện một ray dài 44 km, tổng cộng khoảng 461,8 km.",
+    "context_anchor": "bao gồm 10 tuyến đường sắt đô thị với tổng chiều dài khoảng 417,8 km và 3 tuyến tàu điện một ray dài 44 km"
+  },
+  {
+    "id": 12,
+    "query": "Vì sao phần lớn tuyến đường thủy nội địa của Việt Nam chạy theo hướng Đông - Tây?",
+    "ground_truth": "Vì hầu hết các con sông chính đều đổ từ hướng tây ra biển.",
+    "context_anchor": "phần lớn các tuyến đường thủy nội địa có hướng Đông - Tây bởi hầu hết các con sông chính đều đổ từ hướng tây ra biển"
+  },
+  {
+    "id": 13,
+    "query": "Việt Nam được dự báo sẽ chịu ảnh hưởng của biến đổi khí hậu ở mức độ nào?",
+    "ground_truth": "Việt Nam nằm trong số các nước bị ảnh hưởng nặng nề nhất bởi biến đổi khí hậu toàn cầu.",
+    "context_anchor": "Việt Nam sẽ nằm trong số các nước bị ảnh hưởng nặng nề nhất bởi biến đổi khí hậu toàn cầu"
+  },
+  {
+    "id": 14,
+    "query": "Thủy điện chiếm bao nhiêu phần trăm tổng công suất điện của Việt Nam tính đến cuối năm 2018?",
+    "ground_truth": "Gần 40% tổng công suất điện.",
+    "context_anchor": "Tính đến cuối năm 2018, thủy điện chiếm gần 40% tổng công suất điện ở quốc gia này"
+  },
+  {
+    "id": 15,
+    "query": "PostgreSQL là loại hệ quản trị cơ sở dữ liệu gì?",
+    "ground_truth": "Một hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) tự do và mã nguồn mở, nhấn mạnh khả năng mở rộng và tuân thủ SQL.",
+    "context_anchor": "là một hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) tự do và mã nguồn mở nhấn mạnh vào khả năng mở rộng"
+  },
+  {
+    "id": 16,
+    "query": "Trí tuệ nhân tạo được định nghĩa là gì?",
+    "ground_truth": "Khả năng của các hệ thống máy tính thực hiện các nhiệm vụ liên quan đến trí thông minh của con người như học tập, suy luận, giải quyết vấn đề, nhận thức và ra quyết định.",
+    "context_anchor": "là khả năng của các hệ thống máy tính thực hiện các nhiệm vụ liên quan đến trí thông minh của con người, như học tập, suy luận, giải quyết vấn đề, nhận thức và đưa ra quyết định"
   }
 ]
