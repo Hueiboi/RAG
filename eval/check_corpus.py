@@ -106,6 +106,12 @@ def check_anchors() -> tuple[int, int]:
         hits = [(name, i) for i, (name, c) in enumerate(chunks) if needle in c]
         if len(hits) == 1:
             continue
+        if hits and len({name for name, _ in hits}) == 1:
+            # Nhiều chunk cùng file = chunk_overlap lặp lại cùng đoạn văn,
+            # không phải anchor mơ hồ. Chấp nhận.
+            print(f"  [ok  ] #{item['id']:<2} x{len(hits)} chunk cùng file "
+                  f"({hits[0][0]}) - overlap")
+            continue
         bad += 1
         label = "MISS " if not hits else f"x{len(hits)}  "
         files = ", ".join(sorted({name for name, _ in hits})) or "-"

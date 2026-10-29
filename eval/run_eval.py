@@ -180,6 +180,7 @@ def run(items: list[dict], user_id: str, k: int, label: str) -> int:
         rows.append(
             {
                 "id": item["id"],
+                "kind": item.get("kind", "unknown"),
                 "query": item["query"],
                 "rank": rank,
                 "n_returned": len(docs),
@@ -195,7 +196,11 @@ def run(items: list[dict], user_id: str, k: int, label: str) -> int:
     mrr = sum(1 / r["rank"] for r in hits) / n
     top1 = sum(1 for r in hits if r["rank"] == 1) / n
 
+    by_kind = kind_stats(rows)
     print(f"\nrecall@{k} = {recall:.3f}   MRR@{k} = {mrr:.3f}   top1 = {top1:.3f}")
+    for kind, s in by_kind.items():
+        print(f"  {kind:<14} recall={s['recall']:.3f}  "
+              f"MRR={s['mrr']:.3f}  (n={s['n']})")
 
     append_log(
         label=label,
@@ -204,6 +209,7 @@ def run(items: list[dict], user_id: str, k: int, label: str) -> int:
         recall=recall,
         mrr=mrr,
         top1=top1,
+        by_kind=by_kind,
         stats=stats,
         user_id=user_id,
         settings=settings,
@@ -212,7 +218,23 @@ def run(items: list[dict], user_id: str, k: int, label: str) -> int:
     return 0
 
 
-def append_log(*, label, k, rows, recall, mrr, top1, stats, user_id, settings):
+def kind_stats(rows: list[dict]) -> dict[str, dict]:
+    """Recall/MRR theo nhóm câu, để biết một thay đổi giúp nhóm nào và hại nhóm nào."""
+    groups: dict[str, list[dict]] = {}
+    for r in rows:
+        groups.setdefault(r["kind"], []).append(r)
+    out = {}
+    for kind, rs in sorted(groups.items()):
+        hit = [r for r in rs if r["rank"]]
+        out[kind] = {
+            "n": len(rs),
+            "recall": len(hit) / len(rs),
+            "mrr": sum(1 / r["rank"] for r in hit) / len(rs),
+        }
+    return out
+
+
+def append_log(*, label, k, rows, recall, mrr, top1, by_kind, stats, user_id, settings):
     LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
     now = datetime.now().astimezone()
 
@@ -251,6 +273,15 @@ def append_log(*, label, k, rows, recall, mrr, top1, stats, user_id, settings):
         f"| top1 | {top1:.3f} |",
         "",
     ]
+
+    if by_kind:
+        lines += [
+            "| nhóm câu | n | recall@k | MRR@k |",
+            "| --- | --- | --- | --- |",
+        ]
+        for kind, s in by_kind.items():
+            lines.append(f"| {kind} | {s['n']} | {s['recall']:.3f} | {s['mrr']:.3f} |")
+        lines.append("")
 
     if not meaningful:
         lines += [

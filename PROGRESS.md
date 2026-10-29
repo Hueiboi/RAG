@@ -84,4 +84,12 @@
 > OpenCode đã thực hiện đo đạc phân bố điểm số tương đồng (Cosine Similarity Scores) của Top-5 chunks trả về từ PGVector cho tập câu hỏi thử nghiệm.    
 - score_threshold là "màng lọc rác", không phải "đòn bẩy hiệu năng": Điểm của các chunk chứa đáp án đúng thực tế rơi vào khoảng **0.48 - 0.50**. Nếu nâng ngưỡng lên **0.55**, hệ thống sẽ chặn nhầm đáp án đúng; còn đặt **0.3** thì toàn bộ kết quả hợp lệ đều đi qua.
 - Đổi từ **0.0 -> 0.3** chỉ để chuẩn hóa logic code: Trong code, **0.0** tương đương với không lọc gì (no-op). Sửa thành **0.3** giúp chặn các câu hỏi hoàn toàn vô nghĩa/lạc đề, chứ không làm tăng chỉ số **Recall@5** trên tập dữ liệu hiện tại.
-#### Progress
+
+
+### 29/10/2026
+- [x] Mở rộng bộ eval 16 → 26 câu, chia 5 nhóm (`cross-lingual`, `vn-natural`, `lookup`, `short`, `descriptive`); `run_eval` in breakdown theo nhóm và ghi bảng vào log — `data/eval_set.json`, `eval/run_eval.py`
+- [x] `check_corpus` chấp nhận anchor khớp nhiều chunk **cùng file** (hệ quả `chunk_overlap`, không phải anchor mơ hồ) — `eval/check_corpus.py`
+- [x] Baseline 26 câu: recall@5 **0.731** · MRR@5 0.660 · top1 0.615; riêng cross-lingual 0.167 — `data/eval_log.md`
+- [x] **Bỏ hybrid search (tsvector + BM25 + RRF)**: hướng này từng được chốt, nhưng đo bằng `ts_rank` thật chỉ cho 0.308, RRF 0.615–0.731 — không hơn dense 0.731. Nguyên nhân: `ts_rank` không có IDF, `plainto_tsquery` AND cho 0 hit, Supabase không có BM25 (`pg_search`/ParadeDB) — `docs/why-not-hybrid.md` §2–§3
+- [x] Chốt phương án thay thế: lexical boost trên **dense top-20** (xếp hạng lại theo token hiếm + RRF) → 0.808, không mất câu nào, không cần migration; implement ở commit sau — `docs/why-not-hybrid.md` §4
+- [x] Ghi rõ giới hạn: 5 câu MISS còn lại đều là cross-lingual (#1, #3–#6), tín hiệu từ vựng không sửa được — `docs/why-not-hybrid.md` §5

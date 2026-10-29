@@ -3,96 +3,182 @@
     "id": 1,
     "query": "Phương tiện giao thông phổ biến nhất tại Việt Nam hiện nay là gì?",
     "ground_truth": "Xe máy (Motorcycles) vẫn là phương tiện giao thông chính.",
-    "context_anchor": "Motorcycles remain the primary form of transport, while private car ownership and public transit continue to increase."
+    "context_anchor": "Motorcycles remain the primary form of transport, while private car ownership and public transit continue to increase.",
+    "kind": "cross-lingual"
   },
   {
     "id": 2,
     "query": "Xu hướng sở hữu phương tiện giao thông cá nhân và công cộng ở Việt Nam đang diễn ra như thế nào?",
     "ground_truth": "Tỷ lệ sở hữu xe ô tô cá nhân và việc sử dụng giao thông công cộng tiếp tục tăng lên.",
-    "context_anchor": "Motorcycles remain the primary form of transport, while private car ownership and public transit continue to increase."
+    "context_anchor": "Motorcycles remain the primary form of transport, while private car ownership and public transit continue to increase.",
+    "kind": "cross-lingual"
   },
   {
     "id": 3,
     "query": "Những nguyên nhân chính nào gây ra tình trạng ùn tắc giao thông vào giờ cao điểm tại các đô thị lớn?",
     "ground_truth": "Do mật độ dân số cao, tốc độ đô thị hóa nhanh và lượng phương tiện giao thông tăng mạnh.",
-    "context_anchor": "Major cities experience congestion during rush hours because of high population density, rapid urbanization, and growing numbers of vehicles."
+    "context_anchor": "Major cities experience congestion during rush hours because of high population density, rapid urbanization, and growing numbers of vehicles.",
+    "kind": "cross-lingual"
   },
   {
     "id": 4,
     "query": "Các cơ quan chức năng Việt Nam đã áp dụng những giải pháp nào để giảm thiểu tai nạn giao thông?",
     "ground_truth": "Khuyến khích đội mũ bảo hiểm, thực thi pháp luật nghiêm ngặt hơn, giáo dục giao thông và cải thiện hạ tầng.",
-    "context_anchor": "Authorities promote helmet use, stricter law enforcement, traffic education, and infrastructure improvements to reduce accidents."
+    "context_anchor": "Authorities promote helmet use, stricter law enforcement, traffic education, and infrastructure improvements to reduce accidents.",
+    "kind": "cross-lingual"
   },
   {
     "id": 5,
     "query": "Việt Nam đang tập trung đầu tư vào những loại hình hạ tầng giao thông nào cho tương lai?",
     "ground_truth": "Đường cao tốc (expressways), các tuyến đường sắt đô thị (metro lines) và hệ thống giao thông thông minh (ITS).",
-    "context_anchor": "Ongoing investments in expressways, metro lines, and intelligent transportation systems aim to improve mobility, reduce congestion, and support sustainable economic development."
+    "context_anchor": "Ongoing investments in expressways, metro lines, and intelligent transportation systems aim to improve mobility, reduce congestion, and support sustainable economic development.",
+    "kind": "cross-lingual"
   },
   {
     "id": 6,
     "query": "Mục tiêu dài hạn của việc nâng cấp hệ thống giao thông thông minh và đường cao tốc là gì?",
     "ground_truth": "Nhằm cải thiện khả năng di chuyển, giảm ùn tắc và hỗ trợ phát triển kinh tế bền vững.",
-    "context_anchor": "aim to improve mobility, reduce congestion, and support sustainable economic development."
+    "context_anchor": "aim to improve mobility, reduce congestion, and support sustainable economic development.",
+    "kind": "cross-lingual"
   },
   {
     "id": 7,
     "query": "Nhà Trần cai trị nước Đại Việt trong khoảng thời gian nào?",
     "ground_truth": "Từ năm 1226 đến năm 1400.",
-    "context_anchor": "là một triều đại quân chủ cai trị nước Đại Việt từ năm 1226 đến năm 1400"
+    "context_anchor": "là một triều đại quân chủ cai trị nước Đại Việt từ năm 1226 đến năm 1400",
+    "kind": "vn-natural"
   },
   {
     "id": 8,
     "query": "Vì sao hiện tượng nhiều thế hệ cùng sống chung trong một ngôi nhà lại phổ biến ở Hà Nội?",
     "ground_truth": "Do truyền thống văn hóa và những khó khăn về chỗ ở; Hà Nội là một trong những thành phố đắt đỏ nhất thế giới, giá bất động sản cao.",
-    "context_anchor": "Hà Nội lại là một trong những thành phố đắt đỏ nhất thế giới và giá bất động sản không thua kém các quốc gia giàu có"
+    "context_anchor": "Hà Nội lại là một trong những thành phố đắt đỏ nhất thế giới và giá bất động sản không thua kém các quốc gia giàu có",
+    "kind": "vn-natural"
   },
   {
     "id": 9,
     "query": "Tuyến đường cao tốc Bắc – Nam phía Đông bắt đầu và kết thúc ở đâu?",
     "ground_truth": "Bắt đầu từ Lạng Sơn và kết thúc tại Cà Mau.",
-    "context_anchor": "Đường cao tốc bắt đầu từ Lạng Sơn và kết thúc tại Cà Mau"
+    "context_anchor": "Đường cao tốc bắt đầu từ Lạng Sơn và kết thúc tại Cà Mau",
+    "kind": "vn-natural"
   },
   {
     "id": 10,
     "query": "Dự án đường cao tốc khởi công ngày 1 tháng 1 năm 2023 đã được thông xe kỹ thuật vào ngày nào?",
     "ground_truth": "Ngày 19 tháng 4 năm 2025; chính thức đưa vào khai thác tuyến chính từ ngày 28 tháng 4 năm 2025.",
-    "context_anchor": "Dự án được khởi công vào ngày 1 tháng 1 năm 2023 và chính thức thông xe kỹ thuật vào ngày 19 tháng 4 năm 2025"
+    "context_anchor": "Dự án được khởi công vào ngày 1 tháng 1 năm 2023 và chính thức thông xe kỹ thuật vào ngày 19 tháng 4 năm 2025",
+    "kind": "vn-natural"
   },
   {
     "id": 11,
     "query": "Hệ thống đường sắt đô thị Hà Nội khi hoàn thiện gồm bao nhiêu tuyến và tổng chiều dài bao nhiêu km?",
     "ground_truth": "10 tuyến đường sắt đô thị dài khoảng 417,8 km và 3 tuyến tàu điện một ray dài 44 km, tổng cộng khoảng 461,8 km.",
-    "context_anchor": "bao gồm 10 tuyến đường sắt đô thị với tổng chiều dài khoảng 417,8 km và 3 tuyến tàu điện một ray dài 44 km"
+    "context_anchor": "bao gồm 10 tuyến đường sắt đô thị với tổng chiều dài khoảng 417,8 km và 3 tuyến tàu điện một ray dài 44 km",
+    "kind": "vn-natural"
   },
   {
     "id": 12,
     "query": "Vì sao phần lớn tuyến đường thủy nội địa của Việt Nam chạy theo hướng Đông - Tây?",
     "ground_truth": "Vì hầu hết các con sông chính đều đổ từ hướng tây ra biển.",
-    "context_anchor": "phần lớn các tuyến đường thủy nội địa có hướng Đông - Tây bởi hầu hết các con sông chính đều đổ từ hướng tây ra biển"
+    "context_anchor": "phần lớn các tuyến đường thủy nội địa có hướng Đông - Tây bởi hầu hết các con sông chính đều đổ từ hướng tây ra biển",
+    "kind": "vn-natural"
   },
   {
     "id": 13,
     "query": "Việt Nam được dự báo sẽ chịu ảnh hưởng của biến đổi khí hậu ở mức độ nào?",
     "ground_truth": "Việt Nam nằm trong số các nước bị ảnh hưởng nặng nề nhất bởi biến đổi khí hậu toàn cầu.",
-    "context_anchor": "Việt Nam sẽ nằm trong số các nước bị ảnh hưởng nặng nề nhất bởi biến đổi khí hậu toàn cầu"
+    "context_anchor": "Việt Nam sẽ nằm trong số các nước bị ảnh hưởng nặng nề nhất bởi biến đổi khí hậu toàn cầu",
+    "kind": "vn-natural"
   },
   {
     "id": 14,
     "query": "Thủy điện chiếm bao nhiêu phần trăm tổng công suất điện của Việt Nam tính đến cuối năm 2018?",
     "ground_truth": "Gần 40% tổng công suất điện.",
-    "context_anchor": "Tính đến cuối năm 2018, thủy điện chiếm gần 40% tổng công suất điện ở quốc gia này"
+    "context_anchor": "Tính đến cuối năm 2018, thủy điện chiếm gần 40% tổng công suất điện ở quốc gia này",
+    "kind": "vn-natural"
   },
   {
     "id": 15,
     "query": "PostgreSQL là loại hệ quản trị cơ sở dữ liệu gì?",
     "ground_truth": "Một hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) tự do và mã nguồn mở, nhấn mạnh khả năng mở rộng và tuân thủ SQL.",
-    "context_anchor": "là một hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) tự do và mã nguồn mở nhấn mạnh vào khả năng mở rộng"
+    "context_anchor": "là một hệ quản trị cơ sở dữ liệu quan hệ (RDBMS) tự do và mã nguồn mở nhấn mạnh vào khả năng mở rộng",
+    "kind": "vn-natural"
   },
   {
     "id": 16,
     "query": "Trí tuệ nhân tạo được định nghĩa là gì?",
     "ground_truth": "Khả năng của các hệ thống máy tính thực hiện các nhiệm vụ liên quan đến trí thông minh của con người như học tập, suy luận, giải quyết vấn đề, nhận thức và ra quyết định.",
-    "context_anchor": "là khả năng của các hệ thống máy tính thực hiện các nhiệm vụ liên quan đến trí thông minh của con người, như học tập, suy luận, giải quyết vấn đề, nhận thức và đưa ra quyết định"
+    "context_anchor": "là khả năng của các hệ thống máy tính thực hiện các nhiệm vụ liên quan đến trí thông minh của con người, như học tập, suy luận, giải quyết vấn đề, nhận thức và đưa ra quyết định",
+    "kind": "vn-natural"
+  },
+  {
+    "id": 17,
+    "kind": "lookup",
+    "query": "Quyết định 896/QĐ-TTg được ban hành ngày nào?",
+    "ground_truth": "Ngày 26 tháng 7 năm 2022, phê duyệt Chiến lược quốc gia về biến đổi khí hậu đến năm 2050.",
+    "context_anchor": "Ngày 26 tháng 7 năm 2022, Thủ tướng Chính phủ ban hành Quyết định 896/QĐ-TTg về việc phê duyệt Chiến lược quốc gia về biến đổi khí hậu giai đoạn đến năm 2050."
+  },
+  {
+    "id": 18,
+    "kind": "lookup",
+    "query": "Nghị quyết 13–NQ/TW khóa XI đặt mục tiêu bao nhiêu km cao tốc và Việt Nam đạt bao nhiêu phần trăm?",
+    "ground_truth": "Mục tiêu khoảng 2.000 km đến năm 2020; chỉ đạt 48% yêu cầu.",
+    "context_anchor": "theo Nghị quyết 13–NQ/TW của Ban Chấp hành Trung ương Đảng khóa XI (chỉ đạt 48% yêu cầu)."
+  },
+  {
+    "id": 19,
+    "kind": "lookup",
+    "query": "Tuyến metro số 2A Cát Linh – Hà Đông phải điều chỉnh tiến độ mấy lần trước khi khai thác?",
+    "ground_truth": "8 lần điều chỉnh; khai thác thương mại ngày 6 tháng 11 năm 2021.",
+    "context_anchor": "Tuyến số 2A sau 8 lần điều chỉnh tiến độ dự án, đã chính thức đi vào khai thác thương mại vào ngày 6 tháng 11 năm 2021."
+  },
+  {
+    "id": 20,
+    "kind": "lookup",
+    "query": "Quyết định 428/QĐ-TTg phê duyệt quy hoạch nào?",
+    "ground_truth": "Điều chỉnh Quy hoạch phát triển điện lực quốc gia 2011–2020, tầm nhìn 2030 (Quy hoạch điện 7 điều chỉnh – QHD 7A).",
+    "context_anchor": "Theo Quyết định số 428/QĐ-TTg của Thủ tướng Chính phủ Việt Nam: phê duyệt điều chỉnh Quy hoạch phát triển điện lực quốc gia giai đoạn 2011–2020 có xét đến năm 2030"
+  },
+  {
+    "id": 21,
+    "kind": "lookup",
+    "query": "Dự án mở rộng cao tốc Cao Bồ – Mai Sơn quy mô bao nhiêu làn xe và khởi công khi nào?",
+    "ground_truth": "6 làn xe + 2 làn khẩn cấp; khởi công 7 tháng 3 năm 2025, dự kiến xong trong năm 2026.",
+    "context_anchor": "Hiện tại dự án mở rộng Đường cao tốc Cao Bồ – Mai Sơn với quy mô hoàn chỉnh gồm 6 làn xe + 2 làn khẩn cấp đã được khởi công vào ngày 7 tháng 3 năm 2025, dự kiến hoàn thành trong năm 2026."
+  },
+  {
+    "id": 22,
+    "kind": "short",
+    "query": "cầu vượt biển Hòn Khoai nối với đường nào",
+    "ground_truth": "Nối với Đường Hồ Chí Minh, ở đoạn cao tốc Cà Mau – Đất Mũi.",
+    "context_anchor": "Điểm cuối giao với Đường Hồ Chí Minh và cầu vượt biển Hòn Khoai."
+  },
+  {
+    "id": 23,
+    "kind": "short",
+    "query": "sông Hồng chảy qua Hà Nội dài bao nhiêu",
+    "ground_truth": "163 km, khoảng 1/3 chiều dài của sông Hồng trên đất Việt Nam.",
+    "context_anchor": "Sông Hồng đoạn chảy qua Hà Nội dài 163 km, chiếm khoảng 1/3 chiều dài của con sông này trên đất Việt Nam."
+  },
+  {
+    "id": 24,
+    "kind": "descriptive",
+    "query": "Nóng lên toàn cầu đe dọa sinh kế của người nuôi tôm cá ở đồng bằng sông Cửu Long như thế nào?",
+    "ground_truth": "Khoảng 2,8 triệu người làm nghề này; nhiệt độ cao hơn, bão nhiều hơn và nước biển dâng ảnh hưởng sinh lý, sinh thái của cá và hoạt động nuôi trồng.",
+    "context_anchor": "Người ta ước tính rằng khoảng 2,8 triệu người đang làm việc trong lĩnh vực này, trong khi doanh thu xuất khẩu dự kiến đạt khoảng 2,8 tỷ đô la trong năm 2010."
+  },
+  {
+    "id": 25,
+    "kind": "descriptive",
+    "query": "Từ khi nào doanh nghiệp nhà nước bắt đầu được trao quyền tự quyết sản xuất kinh doanh?",
+    "ground_truth": "Quyết định 25/26-CP năm 1981 trao quyền tự chủ cho doanh nghiệp quốc doanh.",
+    "context_anchor": "Quyết định 25/26-CP (1981) trao quyền tự chủ cho doanh nghiệp quốc doanh"
+  },
+  {
+    "id": 26,
+    "kind": "descriptive",
+    "query": "Mạng lưới tàu điện Hà Nội hiện có bao nhiêu tuyến đang chạy và bao nhiêu nhà ga?",
+    "ground_truth": "Hai tuyến đang vận hành với 20 ga (12 ga tuyến 2A, 8 ga tuyến 3); quy hoạch dự kiến 52 ga.",
+    "context_anchor": "Hệ thống đường sắt đô thị Hà Nội hiện nay có 20 ga trên hai tuyến, bao gồm 12 ga trên Tuyến 2A và 8 ga trên Tuyến 3, dự kiến sẽ có 52 ga gồm các tuyến đang vận hành và thi công."
   }
 ]
